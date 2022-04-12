@@ -12,7 +12,7 @@ const ACTION = {
 const initialState = {
 	token: 0,
 	authInfo: {},
-	isAuth: 0,
+	isAuth: false,
 };
 
 const reducer = (state, action) => {
@@ -67,7 +67,7 @@ const AuthContextProvider = ({ children }) => {
 		const authInfo = authString ? JSON.parse(authString) : {};
 
 		const authStateString = localStorage.getItem("isAuth");
-		const isAuth = tokenString ? JSON.parse(authStateString) : 0;
+		const isAuth = tokenString ? JSON.parse(authStateString) : false;
 
 		const authorizeInfo = {
 			token,

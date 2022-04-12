@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 
 import { Menu } from "@headlessui/react";
 
-import { ChevronDownIcon, SortAscendingIcon } from "@heroicons/react/solid";
+import {
+	ChevronDownIcon,
+	SortAscendingIcon,
+	ChatAlt2Icon,
+} from "@heroicons/react/solid";
 
 import CardForum from "../components/forum/card/CardForum";
 
@@ -97,11 +101,21 @@ const Homepage = () => {
 					</Menu>
 				</div>
 			</div>
-			{discussionState.map((value) => (
-				<div key={value.id} className="space-y-1 divide-y-2">
-					<CardForum value={value} {...cardConfig} setRefresh={setRefresh} />
+			{Object.keys(discussionState).length > 0 ? (
+				discussionState.map((value) => (
+					<div key={value.id} className="space-y-1 divide-y-2">
+						<CardForum value={value} {...cardConfig} setRefresh={setRefresh} />
+					</div>
+				))
+			) : (
+				<div className="container m-5 mx-auto items-center justify-center text-center">
+					<ChatAlt2Icon className="mx-auto h-12 w-12 text-gray-400" />
+					<h3 className="mt-2 text-sm font-medium text-gray-900">No Treads</h3>
+					<p className="mt-1 text-sm text-gray-500">
+						Get started by creating a new tread.
+					</p>
 				</div>
-			))}
+			)}
 		</div>
 	);
 };

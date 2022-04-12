@@ -4,9 +4,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import DiscussionForm from "../components/config/DiscussionForm";
 import DiscussionTopicApi from "../api/DiscussionTopicApi";
 import { useEffect } from "react";
+import { TabTitle } from "../components/gen/DocumentConfig";
 
 const CreateDiscussion = () => {
-	// const { discussionStore } = DiscussionTopicApi();
+	TabTitle("Create New Discussion Tread");
 	const { storeInfo, storeInfoCheck, RESET, dispatch } = useForms();
 	const { formSubmit, discussionForm, schema, tags, topics, category } =
 		DiscussionForm();

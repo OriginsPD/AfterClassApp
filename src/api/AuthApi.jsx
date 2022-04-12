@@ -28,9 +28,9 @@ const AuthApi = () => {
 
 		const authResponse = await response.json();
 
-		console.log(authResponse.body);
+		// console.log(authResponse.body);
 
-		authorize(authResponse.body);
+		if (authResponse) authorize(authResponse.body);
 	};
 
 	const register = async () => {
