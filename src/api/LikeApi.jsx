@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { useReducer } from "react";
 import useAuth from "../hooks/useAuth";
+import useToken from "../hooks/useToken";
 
 // Action
 const ACTION = {
@@ -8,93 +7,73 @@ const ACTION = {
 	UNLIKE: "unlike_post",
 };
 
-// State for Creating Like
-const initialState = {
-	id: 0,
-	itemID: 0,
-	itemTopic: "",
-};
-
-const reducer = (state, action) => {
-	switch (action.type) {
-		case ACTION.LIKE:
-			return {
-				...state,
-				...action.payload,
-			};
-		case ACTION.UNLIKE: {
-			return {
-				...initialState,
-			};
-		}
-		default:
-			return {
-				...state,
-			};
-	}
-};
-
 const LikeApi = () => {
 	const { authInfo } = useAuth();
+	const { token } = useToken();
 
-	// Hook Imports Details
-	const [columnState, dispatch] = useReducer(reducer, initialState);
+	// State for Creating Like
+	const initialState = {
+		id: 0,
+		itemID: 0,
+		itemTopic: "",
+	};
 
 	// Access Point Url
 	const accessPoint = "http://127.0.0.1:8000/api";
 
-	// // Request Option
-	// const requestOption = {
-	// 	method: "",
-	// 	headers: {
-	// 		"content-Type": "application/json",
-	// 		Accept: "application/json",
-	// 	},
-	// 	body: JSON.stringify(columnState),
-	// };
-
-	let requestOption = {};
-
-	useEffect(() => {
-		// Request Option
-		requestOption = {
-			method: "",
-			headers: {
-				"content-Type": "application/json",
-				Accept: "application/json",
-			},
-			body: JSON.stringify(columnState),
-		};
-	}, [columnState]);
-
-	const likeReply = async () => {
-		// let { body, ...indexRequest } = requestOption;
-		// const response = await fetch(`${accessPoint}/like`, {
-		// 	...indexRequest,
-		// 	method: "POST",
-		// });
-		// const query = await response.json();
-		console.log(columnState);
-		// console.log(query);
+	// Request Option
+	const requestOption = {
+		method: "",
+		headers: {
+			"content-Type": "application/json",
+			Accept: "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(),
 	};
 
-	const likeDiscussion = async () => {
-		let { ...indexOption } = requestOption;
-		await fetch(`${accessPoint}/like`, {
-			...indexOption,
+	const like = async (id, item) => {
+		let { ...newState } = initialState;
+		let { ...indexRequest } = requestOption;
+		const response = await fetch(`${accessPoint}/like`, {
+			...indexRequest,
 			method: "POST",
+			body: JSON.stringify({
+				...newState,
+				id: authInfo.id,
+				itemID: id,
+				itemTopic: item,
+			}),
 		});
+
+		// let { ...newState } = initialState;
+
+		console.log(item);
+	};
+
+	const unLike = async (id, item) => {
+		let { ...newState } = initialState;
+		let { ...indexRequest } = requestOption;
+		await fetch(`${accessPoint}/unLike`, {
+			...indexRequest,
+			method: "POST",
+			body: JSON.stringify({
+				...newState,
+				id: authInfo.id,
+				itemID: id,
+				itemTopic: item,
+			}),
+		});
+		// console.log(authInfo.id);
 	};
 
 	const configProps = {
 		// Functional
-		likeReply,
+		like,
+		unLike,
 
 		// Actions
 		...ACTION,
-
-		// Dispatch Function
-		dispatch,
 	};
 
 	return { ...configProps };

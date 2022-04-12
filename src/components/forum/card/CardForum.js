@@ -6,11 +6,24 @@ import {
 
 import { HeartIcon as HeartIconOut } from '@heroicons/react/outline'
 import useAuth from '../../../hooks/useAuth'
+import LikeApi from '../../../api/LikeApi'
 
-const CardForum = ({ value, toggleIcon }) => {
+const CardForum = ({ value, setRefresh }) => {
     const { authInfo } = useAuth()
 
-    // console.log(value.like)
+    const { like, unLike } = LikeApi()
+
+    const toggleLike = (id, items) => {
+        like(id, items);
+        setRefresh((previousState) => previousState + parseInt(1));
+    };
+
+    const toggleUnlike = (id, items) => {
+        unLike(id, items);
+        setRefresh((previousState) => previousState + parseInt(1));
+    };
+
+    console.log(Object.values(value.like).map((items) => items.user_id)[0] === authInfo.id)
 
     return (
         <>
@@ -37,30 +50,34 @@ const CardForum = ({ value, toggleIcon }) => {
 
                             </button>
 
-                            <button key={value.id} onClick={toggleIcon}
-                                className="text-sm flex font-semibold">
-
-                                {(Object.keys(value.like).length > 0 && value.like.map((id) => id.user_id === authInfo.id))
-                                    ? (
-                                        <>
-                                            <HeartIcon className='h-5 w-5 text-blue-600/60 mr-1 ' />
-                                        </>
-                                    )
-                                    : (
-                                        <>
-                                            <HeartIconOut className='h-5 w-5 text-blue-600/60 mr-1 ' />
-                                        </>
-                                    )
-                                }
-
-                                <span className="hover:underline">
-                                    {(Object.values(value.like).includes(authInfo.id))
-                                        ? "Unlike"
-                                        : "Like"}
-                                </span>
-                                <span className='text-gray-400 ml-2'>( {Object.keys(value.like).length} )</span>
-
-                            </button>
+                            {(Object.keys(value.like).length > 0 && (Object.values(value.like).map((items) => items.user_id).includes(authInfo.id)))
+                                ? (
+                                    <>
+                                        <button
+                                            onClick={() => toggleUnlike(value.id, "discussTopic")}
+                                            className="flex text-sm font-semibold"
+                                        >
+                                            <HeartIcon className="mr-1 h-5 w-5 text-blue-600/60 " />
+                                            <span className="hover:underline">Unlike</span>
+                                            <span className="ml-2 text-gray-400">
+                                                ( {Object.keys(value.like).length} )
+                                            </span>
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button
+                                            onClick={() => toggleLike(value.id, "discussTopic")}
+                                            className="flex text-sm font-semibold"
+                                        >
+                                            <HeartIconOut className="mr-1 h-5 w-5 text-blue-600/60 " />
+                                            <span className="hover:underline">Like</span>
+                                            <span className="ml-2 text-gray-400">
+                                                ( {Object.keys(value.like).length} )
+                                            </span>
+                                        </button>
+                                    </>
+                                )}
                         </div>
 
                         <div className='text-gray-400'>

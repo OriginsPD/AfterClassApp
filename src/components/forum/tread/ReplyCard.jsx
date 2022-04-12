@@ -4,16 +4,18 @@ import { HeartIcon as HeartIconOut } from "@heroicons/react/outline";
 import useAuth from "../../../hooks/useAuth";
 import LikeApi from "../../../api/LikeApi";
 
-const ReplyCard = ({ discussionState }) => {
+const ReplyCard = ({ discussionState, setRefresh }) => {
 	const { authInfo } = useAuth();
-	const { likeReply, dispatch, LIKE, UNLIKE } = LikeApi();
+	const { like, unLike } = LikeApi();
 
-	const toggleLike = async (id) => {
-		dispatch({
-			type: LIKE,
-			payload: { id: authInfo.id, itemID: id, itemTopic: "reply" },
-		});
-		await likeReply();
+	const toggleLike = (id, item) => {
+		like(id, item);
+		setRefresh((previousState) => previousState + parseInt(1));
+	};
+
+	const toggleUnlike = (id, item) => {
+		unLike(id, item);
+		setRefresh((previousState) => previousState + parseInt(1));
 	};
 
 	return (
@@ -45,28 +47,37 @@ const ReplyCard = ({ discussionState }) => {
 									</div>
 								</div>
 								<div className="mt-4 flex justify-end">
-									<button
-										onClick={() => toggleLike(innVal.id)}
-										className="flex text-sm font-semibold"
-									>
-										{Object.keys(innVal.like).length > 0 ? (
-											<>
+									{Object.keys(innVal.like).length > 0 &&
+									Object.values(innVal.like)
+										.map((items) => items.user_id)
+										.includes(authInfo.id) ? (
+										<>
+											<button
+												onClick={() => toggleUnlike(innVal.id, "reply")}
+												className="flex text-sm font-semibold"
+											>
 												<HeartIcon className="mr-1 h-5 w-5 text-blue-600/60 " />
-											</>
-										) : (
-											<>
+												<span className="hover:underline">Unlike</span>
+												<span className="ml-2 text-gray-400">
+													( {Object.keys(innVal.like).length} )
+												</span>
+											</button>
+										</>
+									) : (
+										<>
+											<button
+												onClick={() => toggleLike(innVal.id, "reply")}
+												className="flex text-sm font-semibold"
+											>
 												<HeartIconOut className="mr-1 h-5 w-5 text-blue-600/60 " />
-											</>
-										)}
-										<span className="hover:underline">
-											{Object.values(innVal).includes(authInfo.id)
-												? "like"
-												: "Unlike"}
-										</span>
-										<span className="ml-2 text-gray-400">
-											( {Object.keys(innVal.like).length} )
-										</span>
-									</button>
+												<span className="hover:underline">Like</span>
+												<span className="ml-2 text-gray-400">
+													( {Object.keys(innVal.like).length} )
+												</span>
+											</button>
+										</>
+									)}
+
 									<button className="ml-2 text-sm font-semibold">Reply</button>
 								</div>
 							</li>
