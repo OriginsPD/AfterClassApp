@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useForms } from "../hooks/useForms";
+import useToken from "../hooks/useToken";
 
 const ReplyApi = () => {
 	const [replyState, setReplyState] = useState([]);
+	const { token } = useToken();
 
 	// Hook Imports Details
 	const { credentials } = useForms();
@@ -16,6 +18,7 @@ const ReplyApi = () => {
 		headers: {
 			"content-Type": "application/json",
 			Accept: "application/json",
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(credentials),
 	};
