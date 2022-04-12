@@ -25,9 +25,12 @@ const Homepage = () => {
 
 	const { discussionIndex, discussionState } = DiscussionTopicApi();
 
+	// Refresh Loads
+	const [refresh, setRefresh] = useState(0);
+
 	useEffect(() => {
 		discussionIndex();
-	}, []);
+	}, [refresh]);
 
 	// console.log(discussionState);
 
@@ -96,7 +99,7 @@ const Homepage = () => {
 			</div>
 			{discussionState.map((value) => (
 				<div key={value.id} className="space-y-1 divide-y-2">
-					<CardForum value={value} {...cardConfig} />
+					<CardForum value={value} {...cardConfig} setRefresh={setRefresh} />
 				</div>
 			))}
 		</div>

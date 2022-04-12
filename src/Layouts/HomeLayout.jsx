@@ -5,8 +5,11 @@ import { Outlet, useLocation, Navigate, useParams } from "react-router-dom";
 import NavBar from "../components/routes/NavBar";
 import ActionSection from "../components/forum/ActionSection";
 import HistorySection from "../components/forum/HistorySection";
+import { useForms } from "../hooks/useForms";
+import { useEffect } from "react";
 
 const HomeLayout = () => {
+	const { dispatch, REST } = useForms();
 	const location = useLocation();
 	const currentLocation = location?.pathname || "/";
 
@@ -17,6 +20,10 @@ const HomeLayout = () => {
 		"/setting",
 		"/createTread",
 	];
+
+	useEffect(() => {
+		dispatch({ type: REST });
+	}, [currentLocation]);
 
 	// console.log(currentLocation);
 	return (

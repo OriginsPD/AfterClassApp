@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useForms } from "../hooks/useForms";
+import useToken from "../hooks/useToken";
 
 const DiscussionTopicApi = () => {
 	const [discussionState, setDiscussionState] = useState([]);
+	const { token } = useToken();
 
 	// Hook Imports Details
 	const { credentials } = useForms();
@@ -16,6 +18,7 @@ const DiscussionTopicApi = () => {
 		headers: {
 			"content-Type": "application/json",
 			Accept: "application/json",
+			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify(credentials),
 	};
@@ -45,10 +48,24 @@ const DiscussionTopicApi = () => {
 		setDiscussionState(processQuery);
 	};
 
+	const discussionStore = async () => {
+		const response = await fetch(`${accessPoint}/dtopic`, {
+			...requestOption,
+			method: "POST",
+		});
+
+		const queryResponse = await response.json();
+
+		console.log(queryResponse);
+
+		// console.log(credentials);
+	};
+
 	const configProps = {
 		// Function
 		discussionIndex,
 		discussionFind,
+		discussionStore,
 
 		// State
 		discussionState,

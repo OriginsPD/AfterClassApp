@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { createContext } from "react";
 // import useAuth from "../../hooks/useAuth";
 
@@ -11,6 +11,7 @@ const ACTION = {
 	RESET: "reset_form",
 	LOAD: "load_authInfo",
 	SET_ID: "set_id",
+	UPDATE_TAG: "update_checkbox",
 };
 
 const initialStateValue = {
@@ -34,7 +35,7 @@ const initialStateValue = {
 	tag: "",
 
 	// Reply TextArea
-	comment: "",
+	content: "",
 
 	//  Form Type
 	mode: false,
@@ -67,6 +68,12 @@ const reducer = (state, action) => {
 				...state,
 				id: action.value,
 			};
+		case ACTION.UPDATE_TAG:
+			return {
+				...state,
+				tag: action.payload,
+			};
+
 		default:
 			return {
 				...state,
@@ -76,7 +83,8 @@ const reducer = (state, action) => {
 
 const FormContextProvider = ({ children }) => {
 	const [credentials, dispatch] = useReducer(reducer, initialStateValue);
-	// const { authInfo } = useAuth();
+
+	const [arr, setArr] = useState([]);
 
 	const loginForm = [
 		{
@@ -152,6 +160,13 @@ const FormContextProvider = ({ children }) => {
 			select: false,
 		},
 		{
+			name: "content",
+			type: "text",
+			label: "Content",
+			value: credentials.content,
+			select: false,
+		},
+		{
 			name: "topic",
 			type: "select",
 			label: "Topic",
@@ -181,6 +196,21 @@ const FormContextProvider = ({ children }) => {
 		dispatch({ type: ACTION.UPDATE, key: [name], value });
 	};
 
+	const storeInfoCheck = (event) => {
+		// console.log(event.target.checked);
+		const { name, value } = event.target;
+		if (event.target.checked) {
+			arr.push(value);
+			// setArr((previousState) => arr.concat([value]));
+			// setArr
+		} else {
+			setArr(arr.filter((tagId) => tagId !== value));
+		}
+
+		// console.log(arr);
+		dispatch({ type: ACTION.UPDATE_TAG, payload: arr });
+	};
+
 	const loadInfo = (authInfo) => {
 		// console.log(authInfo);
 		dispatch({ type: ACTION.LOAD, value: authInfo });
@@ -198,6 +228,7 @@ const FormContextProvider = ({ children }) => {
 		discussionForm,
 
 		// Function
+		storeInfoCheck,
 		storeInfo,
 		loadInfo,
 
