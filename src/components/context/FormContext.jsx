@@ -11,6 +11,7 @@ const ACTION = {
 	RESET: "reset_form",
 	LOAD: "load_authInfo",
 	SET_ID: "set_id",
+	PROFILE: "upload image",
 	UPDATE_TAG: "update_checkbox",
 };
 
@@ -21,6 +22,7 @@ const initialStateValue = {
 	username: "",
 	password: "",
 	confirmPassword: "",
+	image: "",
 
 	// Id
 	id: "",
@@ -67,6 +69,11 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				id: action.value,
+			};
+		case ACTION.PROFILE:
+			return {
+				...state,
+				image: action.payload,
 			};
 		case ACTION.UPDATE_TAG:
 			return {

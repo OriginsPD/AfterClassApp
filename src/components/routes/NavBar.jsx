@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
@@ -11,6 +12,9 @@ import {
 import { MenuAlt1Icon, XIcon } from "@heroicons/react/outline";
 
 import LinkSection from "./Link/LinkSection";
+
+import CommandPalette from "../modal/CommandPalette";
+import useToggle from "../../hooks/useToggle";
 
 const navigation = [
 	{ name: "Dashboard", href: "/dashboard", icon: BriefcaseIcon, current: true },
@@ -27,8 +31,10 @@ function classNames(...classes) {
 }
 
 const NavBar = () => {
+	const { isOpen, toggleModal } = useToggle();
+
 	return (
-		<Disclosure as="nav" className="flex-shrink-0 bg-blue-700 shadow-sm">
+		<Disclosure as="nav" className="z-10 flex-shrink-0 bg-blue-700 shadow-sm">
 			{({ open }) => (
 				<>
 					<div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
@@ -62,12 +68,15 @@ const NavBar = () => {
 										<input
 											id="search"
 											name="search"
+											onClick={toggleModal}
+											disabled={isOpen ? true : false}
 											className="block w-full rounded-md border border-transparent bg-blue-400 bg-opacity-25 py-2 pl-10 pr-3 leading-5 text-blue-100 placeholder-blue-200 focus:bg-white focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
 											placeholder="Search Discussion, Tags, Category"
 											type="search"
 										/>
 									</div>
 								</div>
+								<CommandPalette open={isOpen} toggle={toggleModal} />
 							</div>
 
 							<div className="flex lg:hidden">

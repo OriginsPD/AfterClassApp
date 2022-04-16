@@ -1,14 +1,42 @@
 import React, { useEffect } from "react";
 
+// Custom Hooks
 import useAuth from "../../hooks/useAuth";
 import { useForms } from "../../hooks/useForms";
+import SettingForm from "../../components/config/SettingForm";
+
+// Validation
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Setting = () => {
-	const { loadInfo, profileForm, storeInfo } = useForms();
+	const { onFileUpload, onSubmit, schema, REST, formBody } = SettingForm();
+	const { loadInfo, storeInfo, credentials, dispatch } = useForms();
+
 	const { authInfo } = useAuth();
+
+	const {
+		handleSubmit,
+		register,
+		reset,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	});
+
+	const onSubmitClear = () => {
+		onSubmit();
+	};
+
+	// console.log(formBody);
+
+	useEffect(() => {
+		dispatch({ type: REST });
+	}, []);
 
 	useEffect(() => {
 		loadInfo(authInfo);
+		// reset(credentials);
 	}, [authInfo]);
 
 	return (
@@ -25,24 +53,25 @@ const Setting = () => {
 				</div>
 			</div>
 			<div className="mt-5 md:col-span-2 md:mt-0">
-				<form action="#" method="POST">
+				<form onSubmit={handleSubmit(onSubmitClear)}>
 					<div className="shadow sm:overflow-hidden sm:rounded-md">
 						<div className="space-y-6 bg-white px-4 py-5 sm:p-6">
 							<div className="grid grid-cols-6 gap-6">
-								{profileForm.map((items) => (
+								{formBody.map((items) => (
 									<div key={items.name} className="col-span-6 sm:col-span-3">
 										<label
 											htmlFor={items.name}
-											className="block text-sm font-medium capitalize text-gray-700"
+											className={`block text-sm  font-medium capitalize text-gray-700`}
 										>
 											{items.name}
 										</label>
 										<input
+											id={items.name}
 											type={items.type}
-											name={items.name}
+											{...register(items.name)}
 											onChange={storeInfo}
 											value={items.value}
-											className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+											className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
 										/>
 									</div>
 								))}
@@ -62,12 +91,20 @@ const Setting = () => {
 											<path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
 										</svg>
 									</span>
-									<button
+									<label
 										type="button"
-										className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+										htmlFor="image"
+										className="ml-5 cursor-pointer rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 									>
 										Change
-									</button>
+									</label>
+									<input
+										type="file"
+										{...register("image")}
+										id="image"
+										onChange={onFileUpload}
+										hidden
+									/>
 								</div>
 							</div>
 
@@ -123,6 +160,7 @@ const Setting = () => {
 						</div>
 					</div>
 				</form>
+				<p>{errors.image && errors.image?.message}</p>
 			</div>
 		</div>
 	);

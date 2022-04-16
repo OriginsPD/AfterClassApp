@@ -8,12 +8,14 @@ import { TabTitle } from "../components/gen/DocumentConfig";
 
 const CreateDiscussion = () => {
 	TabTitle("Create New Discussion Tread");
-	const { storeInfo, storeInfoCheck, RESET, dispatch } = useForms();
+	const { storeInfo, storeInfoCheck, RESET, dispatch, credentials } =
+		useForms();
 	const { formSubmit, discussionForm, schema, tags, topics, category } =
 		DiscussionForm();
 	const {
 		handleSubmit,
 		register,
+		reset,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(schema),
@@ -24,7 +26,21 @@ const CreateDiscussion = () => {
 	const onSubmit = () => {
 		formSubmit();
 		dispatch({ type: RESET });
+		reset(credentials);
 	};
+
+	const clearForm = () => {
+		dispatch({ type: RESET });
+		reset(credentials);
+	};
+
+	useEffect(() => {
+		dispatch({ type: RESET });
+	}, []);
+
+	useEffect(() => {
+		reset(credentials);
+	}, [credentials]);
 
 	return (
 		<>
@@ -46,6 +62,7 @@ const CreateDiscussion = () => {
 														{...register(items.name)}
 														onChange={storeInfo}
 														defaultValue=""
+														autoComplete
 														className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
 													>
 														<option value="" disabled>
@@ -70,8 +87,7 @@ const CreateDiscussion = () => {
 								)}
 								<div>
 									<button
-										onClick={() => dispatch({ type: RESET })}
-										type="button"
+										onClick={clearForm}
 										className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
 									>
 										Clear
@@ -102,6 +118,7 @@ const CreateDiscussion = () => {
 											type={itemName.type}
 											{...register(itemName.name)}
 											onChange={storeInfo}
+											autoComplete="name"
 											className="block w-6/12 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 											placeholder="Name Your Discussion Tread"
 										/>
@@ -124,6 +141,7 @@ const CreateDiscussion = () => {
 												rows={7}
 												{...register(textItem.name)}
 												onChange={storeInfo}
+												autoComplete
 												className="block w-full resize-none rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
 												value={textItem.value}
 											/>

@@ -8,6 +8,7 @@ import { useForms } from "../../hooks/useForms";
 // Yup and Use Form Hook For Form Validation
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
 
 const FormPortal = ({
 	show,
@@ -17,19 +18,20 @@ const FormPortal = ({
 	formLabel,
 	schema,
 }) => {
+	const { storeInfo, dispatch, RESET, credentials } = useForms();
 	const {
 		register,
+		reset,
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
 
-	const { storeInfo, dispatch, RESET, credentials } = useForms();
-
 	const onSubmit = () => {
 		formSubmit();
 		toggle();
+		reset(credentials);
 	};
 
 	const resetModal = () => {
@@ -37,7 +39,16 @@ const FormPortal = ({
 			delete errors[keys];
 		});
 		dispatch({ type: RESET });
+		reset(credentials);
 	};
+
+	useEffect(() => {
+		dispatch({ type: RESET });
+	}, []);
+
+	useEffect(() => {
+		reset(credentials);
+	}, [credentials]);
 
 	return (
 		<>
@@ -110,6 +121,7 @@ const FormPortal = ({
 														{...register(form.name)}
 														id={form.name}
 														onChange={storeInfo}
+														defaultValue={form.value}
 														autoComplete={form.name}
 														className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 													/>

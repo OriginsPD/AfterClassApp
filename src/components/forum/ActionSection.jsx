@@ -3,25 +3,43 @@ import {
 	ClipboardIcon,
 	HeartIcon,
 	CheckCircleIcon,
-	HomeIcon,
-	MailIcon,
+	StatusOnlineIcon,
+	UserGroupIcon,
 } from "@heroicons/react/solid";
+import { useContext } from "react";
+import { useEffect } from "react";
 
 import { Link } from "react-router-dom";
+import DiscussionTopicApi from "../../api/DiscussionTopicApi";
 
 // Authentication
-import CheckAuth from "../../auth/CheckAuth";
 import useAuth from "../../hooks/useAuth";
+import { ThemeContext } from "../context/ThemeContext";
 
 const ActionSection = () => {
-	const { authState } = CheckAuth();
+	const { isDark, theme } = useContext(ThemeContext);
+
+	// Authenitcation Information
 	const { authInfo, isAuth } = useAuth();
+
+	const { discussionState, discussionIndex } = DiscussionTopicApi();
+
+	useEffect(() => {
+		discussionIndex();
+	}, []);
+
+	const fillerPost = discussionState.filter((post, count) => {
+		if (count < 3 && post.user_id == authInfo.id) {
+			count++;
+			return true;
+		}
+		return false;
+	});
+
 	// const authState = 0;
 
-	// console.log(isAuth);
-
 	return (
-		<div className="sticky top-10 bg-white xl:w-64 xl:flex-shrink-0 xl:border-r xl:border-gray-200">
+		<div className="sticky top-0 h-[95vh] bg-white xl:w-64 xl:flex-shrink-0 xl:border-r xl:border-gray-200">
 			<div className="py-6 pl-4 pr-6 sm:pl-6 lg:pl-8 xl:pl-0">
 				<div className="flex items-center justify-between">
 					<div className="flex-1 space-y-8">
@@ -42,75 +60,67 @@ const ActionSection = () => {
 											<div className="text-sm font-medium text-gray-900">
 												{authInfo.username}
 											</div>
-											<a
-												href="#"
-												className="group flex items-center space-x-1.5"
-											>
-												<MailIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-												<span className="text-xs font-medium text-gray-500 group-hover:text-gray-900">
-													{authInfo.email}
+											<div className="flex items-center space-x-2">
+												<StatusOnlineIcon
+													className="h-5 w-5 animate-spin text-green-600"
+													aria-hidden="true"
+												/>
+												<span className="text-xs font-medium italic text-gray-800">
+													Online
 												</span>
-											</a>
+											</div>
 										</div>
 									</div>
 								</>
 							) : null}
 
 							{/* Action buttons */}
-							<div className="flex flex-col sm:flex-row xl:flex-col">
+							<div className=" flex flex-col sm:flex-row xl:flex-col">
 								<Link
 									to="/createTread"
-									className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 xl:w-full"
+									className="group inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 group-hover:bg-blue-700 xl:w-full"
 								>
-									<ClipboardIcon className="mr-1 h-5 w-5 text-white" />
+									<ClipboardIcon className="mr-1 h-5 w-5 text-white group-hover:animate-pulse" />
 									New Discussion
 								</Link>
+								<Link
+									to="/members"
+									className="mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
+								>
+									<UserGroupIcon className="mr-1 h-5 w-5  text-gray-700 group-hover:animate-ping group-hover:text-green-400" />
+									Users
+								</Link>
 
-								<button
-									type="button"
-									className="mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
+								<Link
+									to="/treads/sort/popular"
+									className="group mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
 								>
-									<HeartIcon className="mr-1 h-5 w-5 text-gray-700" />
+									<HeartIcon className="mr-1 h-5 w-5 text-gray-700  group-hover:text-red-600 " />
 									Popular
-								</button>
-								<button
-									type="button"
-									className="mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
+								</Link>
+								<Link
+									to="/treads/sort/solved"
+									className="group mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
 								>
-									<CheckCircleIcon className="mr-1 h-5 w-5 text-gray-700" />
+									<CheckCircleIcon className="mr-1 h-5 w-5  text-gray-700  group-hover:text-green-400" />
 									Solved
-								</button>
-								<button
-									type="button"
-									className="mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
-								>
-									No Relpied As Yet
-								</button>
+								</Link>
 							</div>
 
 							{/* */}
 						</div>
 
-						{authState ? (
+						{isAuth ? (
 							<>
 								{/* Meta info */}
 								<div className="flex flex-col space-y-6 sm:flex-row sm:space-y-0 sm:space-x-8 xl:flex-col xl:space-x-0 xl:space-y-6">
-									<div className="flex items-center space-x-2">
-										<HomeIcon
-											className="h-5 w-5 text-gray-400"
-											aria-hidden="true"
-										/>
-										<span className="text-sm font-medium text-gray-500">
-											Amber Trainee
-										</span>
-									</div>
 									<div className="flex items-center space-x-2">
 										<CollectionIcon
 											className="h-5 w-5 text-gray-400"
 											aria-hidden="true"
 										/>
 										<span className="text-sm font-medium text-gray-500">
-											8 Treads
+											{Object.keys(fillerPost).length} Treads
 										</span>
 									</div>
 								</div>

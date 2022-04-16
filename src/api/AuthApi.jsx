@@ -1,7 +1,9 @@
+import AlertMessage from "../components/toast/AlertMessage";
 import useAuth from "../hooks/useAuth";
 import { useForms } from "../hooks/useForms";
 
 const AuthApi = () => {
+	const { loginSuccess, loginFailed } = AlertMessage();
 	// Hook Imports Details
 	const { authorize, unAuthorize } = useAuth();
 	const { credentials } = useForms();
@@ -28,9 +30,14 @@ const AuthApi = () => {
 
 		const authResponse = await response.json();
 
-		// console.log(authResponse.body);
+		// console.log(authResponse.body?.status);
 
-		if (authResponse) authorize(authResponse.body);
+		if (authResponse.body?.status == 200) {
+			authorize(authResponse.body);
+			loginSuccess();
+		} else {
+			loginFailed();
+		}
 	};
 
 	const register = async () => {
@@ -42,7 +49,12 @@ const AuthApi = () => {
 
 		const authResponse = await response.json();
 
-		authorize(authResponse.body);
+		if (authResponse.body?.status == 200) {
+			authorize(authResponse.body);
+			loginSuccess();
+		} else {
+			loginFailed();
+		}
 	};
 
 	const logout = async () => {

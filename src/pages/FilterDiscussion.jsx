@@ -1,19 +1,35 @@
-import { useState, useEffect } from "react";
+import { useReducer, useState, useEffect } from "react";
 
-import { Menu } from "@headlessui/react";
+import { useParams } from "react-router-dom";
 
-import { ChatAltIcon, ChatAlt2Icon } from "@heroicons/react/solid";
+// Icons
+import { ChatAlt2Icon, ChatAltIcon } from "@heroicons/react/solid";
 
 import CardForum from "../components/forum/card/CardForum";
 
 import DiscussionTopicApi from "../api/DiscussionTopicApi";
 
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
-
-const Homepage = () => {
+const FilterDiscussion = () => {
 	const { discussionIndex, discussionState } = DiscussionTopicApi();
+	const filter = useParams();
+
+	console.log(filter.sort);
+
+	switch (filter.sort) {
+		case "solved":
+			discussionState.filter((value) => value.status == 1);
+			break;
+		case "popular":
+			discussionState.sort((a, b) => (b.like > a.like ? 1 : -1));
+			break;
+		case "latest":
+			discussionState.sort(function (a, b) {
+				return b.created_at.localeCompare(a.created_at);
+			});
+			break;
+		default:
+			break;
+	}
 
 	// Refresh Loads
 	const [refresh, setRefresh] = useState(0);
@@ -22,14 +38,15 @@ const Homepage = () => {
 		discussionIndex();
 	}, [refresh]);
 
+	console.log(discussionState);
+
 	return (
 		<div className=" bg-white lg:min-w-0 lg:flex-1">
 			<div className="border-b border-t border-gray-200 pl-4 pr-6 pt-4 pb-4 sm:pl-6 lg:pl-8 xl:border-t-0 xl:pl-6 xl:pt-6">
 				<div className="flex items-center">
-					<div></div>
-					<h1 className="flex items-center justify-center text-lg font-semibold capitalize">
+					<h1 className="flex items-center justify-center text-lg font-medium capitalize">
 						<ChatAltIcon className=" mr-2 h-6 w-6 text-blue-400" />
-						Latest Treads
+						{filter.sort} Treads
 					</h1>
 				</div>
 			</div>
@@ -56,4 +73,4 @@ const Homepage = () => {
 	);
 };
 
-export default Homepage;
+export default FilterDiscussion;
