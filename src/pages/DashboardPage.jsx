@@ -70,10 +70,10 @@ const DashboardPage = () => {
 						<div className="mt-6">
 							<Link
 								to="/createTread"
-								className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+								className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 							>
-								<PlusIcon className="-ml-1 mr-2 h-7 w-7" aria-hidden="true" />
-								<span className="text-xl">New Discussion</span>
+								<PlusIcon className="-ml-1 mr-2 h-6 w-6" aria-hidden="true" />
+								<span className="text-lg">New Discussion</span>
 							</Link>
 						</div>
 					</div>

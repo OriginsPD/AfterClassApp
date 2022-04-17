@@ -16,7 +16,7 @@ const LinkSection = () => {
 	const [stateAuth, setStateAuth] = useState();
 
 	const { defaultProps } = AuthForm();
-	
+
 	const { authInfo, isAuth } = useAuth();
 
 	return (
@@ -32,7 +32,6 @@ const LinkSection = () => {
 								<BriefcaseIcon className="mr-1 h-6 w-6 flex-shrink-0 " />
 								Dashboard
 							</Link>
-							<InboxPopover />
 						</div>
 
 						<ProfilePopover />

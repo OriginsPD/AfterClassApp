@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { ThemeContext } from "../components/context/ThemeContext";
 import LoadingPage from "../pages/LoadingPage";
+import Footer from "../components/routes/Footer";
 
 const HomeLayout = () => {
 	const { isDark, theme } = useContext(ThemeContext);
@@ -73,6 +74,7 @@ const HomeLayout = () => {
 
 					{widthScreen.includes(currentLocation) ? null : <HistorySection />}
 				</div>
+				<Footer />
 			</div>
 		</div>
 	);

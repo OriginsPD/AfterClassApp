@@ -16,9 +16,6 @@ const FilterDiscussion = () => {
 	console.log(filter.sort);
 
 	switch (filter.sort) {
-		case "solved":
-			discussionState.filter((value) => value.status == 1);
-			break;
 		case "popular":
 			discussionState.sort((a, b) => (b.like > a.like ? 1 : -1));
 			break;
@@ -52,11 +49,21 @@ const FilterDiscussion = () => {
 			</div>
 			<div className="h-screen overflow-y-auto scrollbar-hide ">
 				{Object.keys(discussionState).length > 0 ? (
-					discussionState.map((value) => (
-						<div key={value.id} className="space-y-1 divide-y-2">
-							<CardForum value={value} setRefresh={setRefresh} />
-						</div>
-					))
+					filter.sort === "solved" ? (
+						discussionState
+							.filter((value) => value.status == 1)
+							.map((value) => (
+								<div key={value.id} className="space-y-1 divide-y-2">
+									<CardForum value={value} setRefresh={setRefresh} />
+								</div>
+							))
+					) : (
+						discussionState.map((value) => (
+							<div key={value.id} className="space-y-1 divide-y-2">
+								<CardForum value={value} setRefresh={setRefresh} />
+							</div>
+						))
+					)
 				) : (
 					<div className="container m-5 mx-auto items-center justify-center text-center">
 						<ChatAlt2Icon className="mx-auto h-12 w-12 text-gray-400" />

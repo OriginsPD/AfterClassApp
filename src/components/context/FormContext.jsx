@@ -23,6 +23,7 @@ const initialStateValue = {
 	password: "",
 	confirmPassword: "",
 	image: "",
+	about: "",
 
 	// Id
 	id: "",
@@ -154,6 +155,13 @@ const FormContextProvider = ({ children }) => {
 			type: "text",
 			label: "Email",
 			value: credentials.email,
+			select: false,
+		},
+		{
+			name: "about",
+			type: "textarea",
+			label: "Tell Us About Your Self",
+			value: credentials.about,
 			select: false,
 		},
 	];

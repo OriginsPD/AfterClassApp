@@ -1,55 +1,68 @@
-const tabs = [
-	{ name: "My Account", href: "#", current: true },
-	{ name: "Company", href: "#", current: false },
-	{ name: "Team Members", href: "#", current: false },
-	{ name: "Billing", href: "#", current: false },
-];
+import React from "react";
+import useAuth from "../../hooks/useAuth";
+import parse from "html-react-parser";
+import Setting from "../../pages/profile/Setting";
 
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
-
-const BodyProfile = () => {
+const BodyProfile = ({ toggleTab }) => {
+	const { authInfo } = useAuth();
 	return (
-		<div className="p-4">
-			<div className="sm:hidden">
-				<label htmlFor="tabs" className="sr-only">
-					Select a tab
-				</label>
-				{/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
-				<select
-					id="tabs"
-					name="tabs"
-					className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-					defaultValue={tabs.find((tab) => tab.current).name}
-				>
-					{tabs.map((tab) => (
-						<option key={tab.name}>{tab.name}</option>
-					))}
-				</select>
-			</div>
-			<div className="hidden sm:block">
-				<div className="border-b border-gray-200">
-					<nav className="-mb-px flex space-x-8" aria-label="Tabs">
-						{tabs.map((tab) => (
-							<a
-								key={tab.name}
-								href={tab.href}
-								className={classNames(
-									tab.current
-										? "border-indigo-500 text-indigo-600"
-										: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
-									"whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
-								)}
-								aria-current={tab.current ? "page" : undefined}
-							>
-								{tab.name}
-							</a>
-						))}
-					</nav>
+		<>
+			<div
+				className={`overflow-hidden bg-white shadow sm:rounded-lg ${
+					toggleTab === 0 ? "block" : "hidden"
+				}`}
+			>
+				<div className="px-4 py-5 sm:px-6">
+					<h3 className="text-lg font-medium leading-6 text-gray-900">
+						Applicant Information
+					</h3>
+					<p className="mt-1 max-w-2xl text-sm text-gray-500">
+						Personal details and application.
+					</p>
+				</div>
+				<div className="border-t border-gray-200 px-4 pt-5 pb-10 sm:px-6">
+					<dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+						<div className="sm:col-span-1">
+							<dt className="text-sm font-medium text-gray-500">Full name</dt>
+							<dd className="mt-1 text-sm text-gray-900">
+								{authInfo.username}
+							</dd>
+						</div>
+						<div className="sm:col-span-1">
+							<dt className="text-sm font-medium text-gray-500">
+								Courses Area{" "}
+							</dt>
+							<dd className="mt-1 text-sm text-gray-900">Backend Developer</dd>
+						</div>
+						<div className="sm:col-span-1">
+							<dt className="text-sm font-medium text-gray-500">
+								Email address
+							</dt>
+							<dd className="mt-1 text-sm text-gray-900">{authInfo.email}</dd>
+						</div>
+						<div className="sm:col-span-1">
+							<dt className="text-sm font-medium text-gray-500">Joined On</dt>
+							<dd className="mt-1 text-sm text-gray-900">
+								{new Date(authInfo.created_at).toLocaleDateString("Jamaica", {
+									month: "long",
+									day: "2-digit",
+									year: "2-digit",
+								})}
+							</dd>
+						</div>
+						<div className="sm:col-span-2">
+							<dt className="text-sm font-medium text-gray-500">About</dt>
+							<dd className="mt-1 w-9/12 text-sm text-gray-900">
+								{parse(authInfo.profile?.about ?? "Testing")}
+							</dd>
+						</div>
+					</dl>
 				</div>
 			</div>
-		</div>
+			<div className={toggleTab === 1 ? "block" : "hidden"}>
+				<Setting />
+			</div>
+		</>
 	);
 };
 

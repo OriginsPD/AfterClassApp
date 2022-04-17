@@ -7,7 +7,7 @@ import useToken from "../hooks/useToken";
 const DiscussionTopicApi = () => {
 	const [discussionState, setDiscussionState] = useState([]);
 	const { token } = useToken();
-	const { CreatedFailed, CreatedSuccess } = AlertMessage();
+	const { CreatedFailed, CreatedSuccess, postDelete } = AlertMessage();
 
 	// Hook Imports Details
 	const { credentials } = useForms();
@@ -81,7 +81,7 @@ const DiscussionTopicApi = () => {
 		const queryResponse = await response.json();
 
 		if (queryResponse.status == 200) {
-			CreatedSuccess();
+			postDelete();
 			<Navigate to="/dashboard" />;
 		} else {
 			CreatedFailed();

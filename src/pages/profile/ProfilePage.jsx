@@ -1,5 +1,8 @@
-import { MailIcon, PhoneIcon } from "@heroicons/react/solid";
+import { MailIcon } from "@heroicons/react/solid";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import BodyProfile from "../../components/profile/BodyProfile";
+import TabSection from "../../components/profile/TabSection";
 import useAuth from "../../hooks/useAuth";
 
 const profile = {
@@ -23,9 +26,10 @@ const profile = {
 
 const ProfilePage = () => {
 	const { authInfo } = useAuth();
+	const [toggleTab, setToggleTab] = useState(0);
 	return (
 		<>
-			<div className="w-screen ">
+			<div className="w-screen p-2">
 				<div>
 					<img
 						className="h-32 w-full rounded-t-xl object-cover lg:h-48"
@@ -38,7 +42,7 @@ const ProfilePage = () => {
 						<div className="flex">
 							<img
 								className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-								src={profile.avatar}
+								src={`https://ui-avatars.com/api/?name=${authInfo.username}`}
 								alt=""
 							/>
 						</div>
@@ -49,8 +53,8 @@ const ProfilePage = () => {
 								</h1>
 							</div>
 							<div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-								<button
-									type="button"
+								<Link
+									to="/inbox"
 									className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
 								>
 									<MailIcon
@@ -58,7 +62,7 @@ const ProfilePage = () => {
 										aria-hidden="true"
 									/>
 									<span>Message</span>
-								</button>
+								</Link>
 							</div>
 						</div>
 					</div>
@@ -68,7 +72,8 @@ const ProfilePage = () => {
 						</h1>
 					</div>
 				</div>
-				<BodyProfile />
+				<TabSection toggleTab={toggleTab} setToggleTab={setToggleTab} />
+				<BodyProfile toggleTab={toggleTab} />
 			</div>
 		</>
 	);

@@ -18,11 +18,9 @@ import useToggle from "../../hooks/useToggle";
 
 const navigation = [
 	{ name: "Dashboard", href: "/dashboard", icon: BriefcaseIcon, current: true },
-	{ name: "Inbox", href: "#", icon: InboxIcon, current: false },
 ];
 const userNavigation = [
 	{ name: "Your Profile", href: "/profile" },
-	{ name: "Settings", href: "/setting" },
 	{ name: "Sign out", href: "#" },
 ];
 
@@ -66,32 +64,14 @@ const NavBar = () => {
 											<SearchIcon className="h-5 w-5" aria-hidden="true" />
 										</div>
 										<input
-											id="search"
-											name="search"
 											onClick={toggleModal}
 											disabled={isOpen ? true : false}
 											className="block w-full rounded-md border border-transparent bg-blue-400 bg-opacity-25 py-2 pl-10 pr-3 leading-5 text-blue-100 placeholder-blue-200 focus:bg-white focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
 											placeholder="Search Discussion, Tags, Category"
-											type="search"
 										/>
 									</div>
 								</div>
 								<CommandPalette open={isOpen} toggle={toggleModal} />
-							</div>
-
-							<div className="flex lg:hidden">
-								{/* Mobile menu button */}
-								<Disclosure.Button className="inline-flex items-center justify-center rounded-md bg-blue-600 p-2 text-blue-400 hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600">
-									<span className="sr-only">Open main menu</span>
-									{open ? (
-										<XIcon className="block h-6 w-6" aria-hidden="true" />
-									) : (
-										<MenuAlt1Icon
-											className="block h-6 w-6"
-											aria-hidden="true"
-										/>
-									)}
-								</Disclosure.Button>
 							</div>
 
 							{/* Links section */}

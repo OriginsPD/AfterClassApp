@@ -62,6 +62,13 @@ const AlertMessage = () => {
 		});
 	};
 
+	const postDelete = () => {
+		toast.success(`Post Delete Success`, {
+			bodyClassName: "px-5 text-sm text-gray-800",
+			autoClose: 2000,
+		});
+	};
+
 	const configProp = {
 		loginFailed,
 		loginSuccess,
@@ -70,6 +77,7 @@ const AlertMessage = () => {
 		CreatedSuccess,
 		CreatedFailed,
 		pleaseLogin,
+		postDelete,
 	};
 
 	return { ...configProp };

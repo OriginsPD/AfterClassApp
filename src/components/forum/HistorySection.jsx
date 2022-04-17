@@ -29,7 +29,7 @@ const HistorySection = () => {
 	});
 
 	return (
-		<div className=" sticky top-0  h-[95vh] bg-white pr-4 sm:pr-6 lg:flex-shrink-0 lg:border-l lg:border-gray-200 lg:pr-8 xl:pr-0">
+		<div className=" sticky top-0 h-[95vh] bg-white pr-4 sm:h-full sm:pr-6 lg:flex-shrink-0 lg:border-l lg:border-gray-200 lg:pr-8 xl:pr-0">
 			<div className="pl-6 lg:w-80">
 				<div className="flex justify-between border-b border-gray-200 pt-6 pb-2">
 					<h2 className="text-sm font-semibold">Discussion Activity</h2>
