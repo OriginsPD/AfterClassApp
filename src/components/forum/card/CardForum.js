@@ -6,10 +6,10 @@ import { Fragment, useState } from 'react'
 
 // Icons
 import {
-    HeartIcon,
+    ThumbUpIcon,
     EyeIcon
 } from '@heroicons/react/solid'
-import { HeartIcon as HeartIconOut, TrashIcon } from '@heroicons/react/outline'
+import { ThumbUpIcon as ThumbUpIconOut, TrashIcon } from '@heroicons/react/outline'
 
 import AlertMessage from '../../toast/AlertMessage'
 
@@ -172,7 +172,7 @@ const CardForum = ({ value, setRefresh, destroy }) => {
                         {parse(value.content)}
                     </p>
                     <div className="flex justify-between mt-4 space-x-2">
-                        <div className='flex space-x-2'>
+                        <div className='flex space-x-8'>
                             <button className="ml-2 text-sm flex font-semibold">
                                 <EyeIcon className='h-5 w-5 text-gray-600/60 mr-1 ' />
                                 <span className='text-gray-400 '>(20)</span>
@@ -184,7 +184,7 @@ const CardForum = ({ value, setRefresh, destroy }) => {
                                             onClick={() => toggleUnlike(value.id, "discussTopic")}
                                             className="flex text-sm font-semibold"
                                         >
-                                            <HeartIcon className="mr-1 h-5 w-5 text-blue-600/60 " />
+                                            <ThumbUpIcon className="mr-1 h-5 w-5 text-blue-600/60 " />
                                             <span className="hover:underline">Unlike</span>
                                             <span className="ml-2 text-gray-400">
                                                 ( {Object.keys(value.like).length} )
@@ -197,7 +197,7 @@ const CardForum = ({ value, setRefresh, destroy }) => {
                                             onClick={() => toggleLike(value.id, "discussTopic")}
                                             className="flex text-sm font-semibold"
                                         >
-                                            <HeartIconOut className="mr-1 h-5 w-5 text-blue-600/60 " />
+                                            <ThumbUpIconOut className="mr-1 h-5 w-5 text-blue-600/60 " />
                                             <span className="hover:underline">Like</span>
                                             <span className="ml-2 text-gray-400">
                                                 ( {Object.keys(value.like).length} )

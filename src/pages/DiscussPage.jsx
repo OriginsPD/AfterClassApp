@@ -30,7 +30,15 @@ const DiscussPage = () => {
 				</div>
 
 				{/* Reply Section */}
-				<ReplyCard discussionState={discussionState} setRefresh={setRefresh} />
+				{discussionState.map((value) =>
+					value.replies.map((innerValue) => (
+						<ReplyCard
+							key={innerValue.id}
+							reply={innerValue}
+							setRefresh={setRefresh}
+						/>
+					))
+				)}
 			</div>
 			{/* TextArea Section */}
 			<div className="w-full bg-gray-100 px-1 py-2">
