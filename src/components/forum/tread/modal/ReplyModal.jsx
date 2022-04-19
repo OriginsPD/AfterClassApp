@@ -1,15 +1,71 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import useAuth from "../../../../hooks/useAuth";
 
-const ReplyModal = ({ show, toggle, reply }) => {
+// Hooks
+import useAuth from "../../../../hooks/useAuth";
+import { useForms } from "../../../../hooks/useForms";
+
+// Vaildate
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+import { useEffect } from "react";
+import CommentApi from "../../../../api/CommentApi";
+
+// Schema
+const schema = yup.object({
+	content: yup
+		.string()
+		.min(12, "Comment must have 12 characters or more")
+		.max(244, "Comment must have 244 characters or less")
+		.required("Please Add a Comment"),
+});
+
+const ReplyModal = ({ show, toggle, reply, setRefresh }) => {
+	const { commentStore } = CommentApi();
+	const { storeInfo, commentForm, dispatch, RESET, credentials } = useForms();
+	const {
+		register,
+		reset,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	});
+
 	const { authInfo } = useAuth();
+
+	const clearComment = () => {
+		toggle();
+		reset(credentials);
+	};
+
+	const restInfo = () => {
+		Object.keys(errors).forEach((keys) => {
+			delete errors[keys];
+		});
+		dispatch({ type: RESET });
+	};
+
+	const onSubmit = async () => {
+		commentStore();
+		setRefresh((previousState) => previousState + parseInt(1));
+		clearComment();
+	};
+
+	useEffect(() => {
+		reset(credentials);
+	}, [credentials]);
+
+	// console.log(credentials.replyId);
+
 	return (
-		<Transition appear show={show} as={Fragment}>
+		<Transition appear show={show} afterLeave={restInfo} as={Fragment}>
 			<Dialog
 				as="div"
 				className="fixed inset-0 z-10 overflow-y-auto"
-				onClose={toggle}
+				onClose={clearComment}
 			>
 				<div className="min-h-screen px-4 text-center">
 					<Transition.Child
@@ -95,18 +151,21 @@ const ReplyModal = ({ show, toggle, reply }) => {
 										/>
 									</div>
 									<div className="min-w-0 flex-1">
-										<form action="#" className="relative">
+										<form
+											onSubmit={handleSubmit(onSubmit)}
+											className="relative"
+										>
 											<div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
 												<label htmlFor="comment" className="sr-only">
-													Add your comment
+													{commentForm.label}
 												</label>
 												<textarea
 													rows={3}
-													name="comment"
-													id="comment"
+													{...register("content")}
+													onChange={storeInfo}
+													value={credentials.content}
 													className="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm"
-													placeholder="Add your comment..."
-													defaultValue={""}
+													placeholder="Add your response..."
 												/>
 
 												{/* Spacer element to match the height of the toolbar */}
@@ -129,6 +188,43 @@ const ReplyModal = ({ show, toggle, reply }) => {
 												</div>
 											</div>
 										</form>
+										{Object.keys(errors).length === 0 ? null : (
+											<div className="mt-4 rounded-md bg-red-50 p-5 ">
+												<div className="flex">
+													<div className="flex-shrink-0">
+														<svg
+															className="h-5 w-5 text-red-400"
+															xmlns="http://www.w3.org/2000/svg"
+															viewBox="0 0 20 20"
+															fill="currentColor"
+															aria-hidden="true"
+														>
+															<path
+																fillRule="evenodd"
+																d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+																clipRule="evenodd"
+															></path>
+														</svg>
+													</div>
+													<div className="ml-3">
+														<h3 className="text-sm font-medium text-red-800">
+															There were {Object.keys(errors).length} errors
+															with your submission
+														</h3>
+														<div className="mt-2 text-sm text-red-700">
+															<ul
+																role="list"
+																className="list-disc space-y-1 pl-5"
+															>
+																{errors.content && (
+																	<li> {errors.content?.message} </li>
+																)}
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										)}
 									</div>
 								</div>
 							</div>

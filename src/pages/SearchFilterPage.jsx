@@ -9,36 +9,11 @@ import CardForum from "../components/forum/card/CardForum";
 
 import DiscussionTopicApi from "../api/DiscussionTopicApi";
 
-const FilterDiscussion = () => {
+const SearchFilterPage = () => {
 	const { discussionIndex, discussionState } = DiscussionTopicApi();
 	const filter = useParams();
 
 	console.log(filter.sort);
-
-	switch (filter.sort) {
-		case "popular":
-			discussionState.sort((a, b) => (b.like > a.like ? 1 : -1));
-			break;
-		case "latest":
-			discussionState.sort(function (a, b) {
-				return b.created_at.localeCompare(a.created_at);
-			});
-			break;
-		case "category":
-			discussionState.sort(function (a, b) {
-				return b.category.name.localeCompare(a.category.name);
-			});
-			break;
-		case "tag":
-			discussionState.discussion_tags.map((value) =>
-				value.sort(function (a, b) {
-					return b.tag.name.localeCompare(a.tag.name);
-				})
-			);
-			break;
-		default:
-			break;
-	}
 
 	// Refresh Loads
 	const [refresh, setRefresh] = useState(0);
@@ -47,7 +22,7 @@ const FilterDiscussion = () => {
 		discussionIndex();
 	}, [refresh]);
 
-	console.log(discussionState);
+	console.log(Object.keys(discussionState).length);
 
 	return (
 		<div className=" bg-white lg:min-w-0 lg:flex-1">
@@ -60,21 +35,23 @@ const FilterDiscussion = () => {
 				</div>
 			</div>
 			<div className="h-screen overflow-y-auto scrollbar-hide ">
-				{Object.keys(discussionState).length > 0 ? (
-					filter.sort === "solved" ? (
+				{Object.keys(discussionState).length > 0 || null ? (
+					filter.sort === "category" ? (
 						discussionState
-							.filter((value) => value.status == 1)
+							.filter((value) => value.category.name == filter.name)
 							.map((value) => (
 								<div key={value.id} className="space-y-1 divide-y-2">
 									<CardForum value={value} setRefresh={setRefresh} />
 								</div>
 							))
 					) : (
-						discussionState.map((value) => (
-							<div key={value.id} className="space-y-1 divide-y-2">
-								<CardForum value={value} setRefresh={setRefresh} />
-							</div>
-						))
+						discussionState
+							.filter((value) => value.user.username == filter.name)
+							.map((value) => (
+								<div key={value.id} className="space-y-1 divide-y-2">
+									<CardForum value={value} setRefresh={setRefresh} />
+								</div>
+							))
 					)
 				) : (
 					<div className="container m-5 mx-auto items-center justify-center text-center">
@@ -92,4 +69,4 @@ const FilterDiscussion = () => {
 	);
 };
 
-export default FilterDiscussion;
+export default SearchFilterPage;

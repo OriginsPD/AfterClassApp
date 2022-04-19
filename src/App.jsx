@@ -25,6 +25,7 @@ import CreateDiscussion from "./pages/CreateDiscussion";
 import RequiredAuth from "./auth/RequiredAuth";
 import MemberPage from "./pages/MemberPage";
 import FilterDiscussion from "./pages/FilterDiscussion";
+import SearchFilterPage from "./pages/SearchFilterPage";
 
 const App = () => {
 	return (
@@ -40,6 +41,10 @@ const App = () => {
 								<Route
 									path="/treads/sort/:sort"
 									element={<FilterDiscussion />}
+								/>
+								<Route
+									path="/treads/search/:sort/:name"
+									element={<SearchFilterPage />}
 								/>
 
 								<Route element={<RequiredAuth />}>

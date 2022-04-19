@@ -2,11 +2,10 @@ import React from "react";
 import parse from "html-react-parser";
 
 const Comment = ({ detail }) => {
-	console.log(detail.comments);
 	return (
 		<>
 			{detail.comments.map((comments) => (
-				<div className="flex">
+				<div key={comments.id} className="flex">
 					<div className="mr-3 flex-shrink-0">
 						<img
 							className="mt-2 h-6 w-6 rounded-full sm:h-8 sm:w-8"

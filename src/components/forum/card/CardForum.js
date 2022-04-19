@@ -16,7 +16,7 @@ import AlertMessage from '../../toast/AlertMessage'
 // Parse Html Body
 import parse from 'html-react-parser'
 
-// Authentitcation Details
+// Authentication Details
 import useAuth from '../../../hooks/useAuth'
 
 // Api Import
@@ -26,6 +26,8 @@ import useToggle from '../../../hooks/useToggle'
 const CardForum = ({ value, setRefresh, destroy }) => {
     const { authInfo, isAuth } = useAuth()
     const { pleaseLogin } = AlertMessage()
+
+    const [viewsCount, setViewCount] = useState(0);
 
     const dashboard = useLocation()
 
@@ -173,10 +175,14 @@ const CardForum = ({ value, setRefresh, destroy }) => {
                     </p>
                     <div className="flex justify-between mt-4 space-x-2">
                         <div className='flex space-x-8'>
-                            <button className="ml-2 text-sm flex font-semibold">
+                            <div className="ml-2 text-sm flex font-semibold">
                                 <EyeIcon className='h-5 w-5 text-gray-600/60 mr-1 ' />
-                                <span className='text-gray-400 '>(20)</span>
-                            </button>
+
+                                <span className='text-gray-400 px-1'>
+                                    {Object.keys(value.view).length}
+                                </span>
+
+                            </div>
                             {(Object.keys(value.like).length > 0 && (Object.values(value.like).map((items) => items.user_id).includes(authInfo.id)))
                                 ? (
                                     <>

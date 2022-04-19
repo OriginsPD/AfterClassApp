@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DiscussionTopicApi from "../api/DiscussionTopicApi";
+import ViewApi from "../api/ViewApi";
 
 // Components
 import HeadCard from "../components/forum/tread/HeadCard";
@@ -9,6 +10,7 @@ import TextAreaCard from "../components/forum/tread/TextAreaCard";
 
 const DiscussPage = () => {
 	const { discussionFind, discussionState } = DiscussionTopicApi();
+	const { viewCount } = ViewApi();
 
 	// Refresh Loads
 	const [refresh, setRefresh] = useState(0);
@@ -17,6 +19,7 @@ const DiscussPage = () => {
 
 	useEffect(() => {
 		discussionFind(params.id);
+		viewCount(params.id);
 	}, [refresh]);
 
 	// console.log(discussionState);

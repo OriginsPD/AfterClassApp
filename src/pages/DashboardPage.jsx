@@ -50,6 +50,7 @@ const DashboardPage = () => {
 						.map((innerPost) => {
 							return (
 								<CardForum
+									key={innerPost.id}
 									value={innerPost}
 									setRefresh={setRefresh}
 									destroy={discussionDelete}

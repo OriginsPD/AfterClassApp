@@ -11,6 +11,7 @@ const ACTION = {
 	RESET: "reset_form",
 	LOAD: "load_authInfo",
 	SET_ID: "set_id",
+	REPLY_ID: "reply_id",
 	PROFILE: "upload image",
 	UPDATE_TAG: "update_checkbox",
 };
@@ -39,6 +40,7 @@ const initialStateValue = {
 
 	// Reply TextArea
 	content: "",
+	replyId: "",
 
 	//  Form Type
 	mode: false,
@@ -70,6 +72,11 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				id: action.value,
+			};
+		case ACTION.REPLY_ID:
+			return {
+				...state,
+				replyId: action.value,
 			};
 		case ACTION.PROFILE:
 			return {
@@ -204,6 +211,15 @@ const FormContextProvider = ({ children }) => {
 		},
 	];
 
+	const commentForm = [
+		{
+			name: "content",
+			label: "Add your comment",
+			value: credentials.content,
+			select: false,
+		},
+	];
+
 	// Function
 
 	const storeInfo = (event) => {
@@ -241,6 +257,7 @@ const FormContextProvider = ({ children }) => {
 		signUpForm,
 		profileForm,
 		discussionForm,
+		commentForm,
 
 		// Function
 		storeInfoCheck,

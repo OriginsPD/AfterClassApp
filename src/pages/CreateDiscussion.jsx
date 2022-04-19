@@ -52,39 +52,47 @@ const CreateDiscussion = () => {
 								Create New Discussion
 							</h3>
 							<div className="mt-3 flex items-center justify-center space-x-2 sm:mt-0 sm:ml-4">
-								{discussionForm.map((items) =>
-									items.select ? (
-										<div key={items.id} className="col-span-6 sm:col-span-6">
-											{selectOption.includes(items.label) ? (
-												<>
-													<select
-														// multiple={items.label === "Tags" ? true : null}
-														{...register(items.name)}
-														onChange={storeInfo}
-														defaultValue=""
-														autoComplete
-														className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
-													>
-														<option value="" disabled>
-															Please Select A {items.label}
-														</option>
-														{items.label === "Topic"
-															? topics.map((innerTopic) => (
-																	<option value={innerTopic.id}>
-																		{innerTopic.name}
-																	</option>
-															  ))
-															: category.map((innerTopic) => (
-																	<option value={innerTopic.id}>
-																		{innerTopic.name}
-																	</option>
-															  ))}
-													</select>
-												</>
-											) : null}
-										</div>
-									) : null
-								)}
+								{discussionForm.map((items) => (
+									<div key={items.id}>
+										{items.select ? (
+											<div key={items.id} className="col-span-6 sm:col-span-6">
+												{selectOption.includes(items.label) ? (
+													<div>
+														<select
+															// multiple={items.label === "Tags" ? true : null}
+															{...register(items.name)}
+															onChange={storeInfo}
+															defaultValue=""
+															autoComplete="topic"
+															className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+														>
+															<option value="" disabled>
+																Please Select A {items.label}
+															</option>
+															{items.label === "Topic"
+																? topics.map((innerTopic) => (
+																		<option
+																			key={innerTopic.id}
+																			value={innerTopic.id}
+																		>
+																			{innerTopic.name}
+																		</option>
+																  ))
+																: category.map((innerTopic) => (
+																		<option
+																			key={innerTopic.id}
+																			value={innerTopic.id}
+																		>
+																			{innerTopic.name}
+																		</option>
+																  ))}
+														</select>
+													</div>
+												) : null}
+											</div>
+										) : null}
+									</div>
+								))}
 								<div>
 									<button
 										onClick={clearForm}
@@ -141,7 +149,7 @@ const CreateDiscussion = () => {
 												rows={7}
 												{...register(textItem.name)}
 												onChange={storeInfo}
-												autoComplete
+												autoComplete="content"
 												className="block w-full resize-none rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
 												value={textItem.value}
 											/>

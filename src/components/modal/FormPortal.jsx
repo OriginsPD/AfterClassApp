@@ -137,7 +137,7 @@ const FormPortal = ({
 									</button>
 								</form>
 								{Object.keys(errors).length === 0 ? null : (
-									<div className="mt-4 rounded-md bg-red-50 p-5 p-4">
+									<div className="mt-4 rounded-md bg-red-50 p-5 ">
 										<div className="flex">
 											<div className="flex-shrink-0">
 												<svg

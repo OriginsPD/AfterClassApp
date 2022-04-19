@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import CategoryApi from "../../api/CategoryApi";
 
 import { Link } from "react-router-dom";
+import MemberAPi from "../../api/MemberAPi";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -14,25 +15,29 @@ function classNames(...classes) {
 
 const CommandPalette = ({ open, toggle }) => {
 	const { tagIndex, tags } = TagApi();
+	const { memberIndex, member } = MemberAPi();
 	const { categoryIndex, category } = CategoryApi();
 	const [query, setQuery] = useState("");
 
 	useEffect(() => {
-		tagIndex();
+		memberIndex();
 		categoryIndex();
 	}, []);
 
-	const tagItems = tags.map((value) => ({
-		...value,
-		category: "Tags",
-	}));
+	// console.log(member);
 
 	const categoryItems = category.map((value) => ({
 		...value,
 		category: "Category",
 	}));
 
-	const items = Object.assign(categoryItems, tagItems);
+	const UserItems = member.map((value) => ({
+		id: value.id,
+		name: value.username,
+		category: "Users",
+	}));
+
+	const items = Object.assign(UserItems, categoryItems);
 
 	// console.log(items);
 
@@ -102,11 +107,10 @@ const CommandPalette = ({ open, toggle }) => {
 									aria-hidden="true"
 								/>
 								<p className="mt-4 font-semibold text-gray-900">
-									Search for Tags and Category
+									Search for Users and Category
 								</p>
 								<p className="mt-2 text-gray-500">
-									Quickly access clients and projects by running a global
-									search.
+									Quickly access Discussion by running a global search.
 								</p>
 							</div>
 						)}
@@ -123,7 +127,14 @@ const CommandPalette = ({ open, toggle }) => {
 										</h2>
 										<ul className="mt-2 text-sm text-gray-800">
 											{items.map((item) => (
-												<Link to="/">
+												<a
+													key={item.id}
+													href={
+														item.category == "Users"
+															? `/treads/search/users/${item.name}`
+															: `/treads/search/category/${item.name}`
+													}
+												>
 													<Combobox.Option
 														key={item.id}
 														value={item}
@@ -136,7 +147,7 @@ const CommandPalette = ({ open, toggle }) => {
 													>
 														{item.name}
 													</Combobox.Option>
-												</Link>
+												</a>
 											))}
 										</ul>
 									</li>

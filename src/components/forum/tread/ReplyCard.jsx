@@ -9,14 +9,17 @@ import LikeApi from "../../../api/LikeApi";
 import Comment from "./Comment";
 import useToggle from "../../../hooks/useToggle";
 import ReplyModal from "./modal/ReplyModal";
+import { useForms } from "../../../hooks/useForms";
 
 const ReplyCard = ({ reply, setRefresh }) => {
 	const { authInfo } = useAuth();
 	const { like, unLike } = LikeApi();
+	const { REPLY_ID, dispatch } = useForms();
 
 	const { isOpen, toggleModal } = useToggle();
 
-	const closeReply = () => {
+	const makeComment = (id) => {
+		dispatch({ type: REPLY_ID, value: id });
 		toggleModal();
 	};
 
@@ -69,7 +72,7 @@ const ReplyCard = ({ reply, setRefresh }) => {
 								<>
 									<button
 										onClick={() => toggleUnlike(reply.id, "reply")}
-										className="flex text-sm font-semibold"
+										className="flex justify-evenly text-sm font-semibold"
 									>
 										<ThumbUpIcon className="mr-1 h-5 w-5 text-blue-600/60 " />
 										<span className="hover:underline">Unlike</span>
@@ -82,7 +85,7 @@ const ReplyCard = ({ reply, setRefresh }) => {
 								<>
 									<button
 										onClick={() => toggleLike(reply.id, "reply")}
-										className="flex text-sm font-semibold"
+										className="flex justify-evenly text-sm font-semibold"
 									>
 										<ThumbUpIconIn className="mr-1 h-5 w-5 text-blue-600/60 " />
 										<span className="hover:underline">Like</span>
@@ -94,7 +97,7 @@ const ReplyCard = ({ reply, setRefresh }) => {
 							)}
 
 							<button
-								onClick={toggleModal}
+								onClick={() => makeComment(reply.id)}
 								className="ml-2 flex text-sm font-semibold"
 							>
 								<AnnotationIcon className="mr-2 h-5 w-5 text-blue-600/60 " />
@@ -103,12 +106,17 @@ const ReplyCard = ({ reply, setRefresh }) => {
 						</div>
 					</li>
 
-					<div className="mt-4">
-						<Comment detail={reply} />
+					<div key={reply.id} className="mt-4 space-y-2">
+						<Comment key={reply.id} detail={reply} />
 					</div>
 				</ul>
+				<ReplyModal
+					show={isOpen}
+					toggle={toggleModal}
+					reply={reply}
+					setRefresh={setRefresh}
+				/>
 			</div>
-			<ReplyModal show={isOpen} toggle={toggleModal} reply={reply} />
 		</>
 	);
 };
