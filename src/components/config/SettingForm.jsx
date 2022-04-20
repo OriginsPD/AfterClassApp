@@ -4,13 +4,11 @@ import { useForms } from "../../hooks/useForms";
 
 const schema = yup.object({
 	username: yup.string().required("Please Enter Your Username"),
-	email: yup.string().email().required("Please Enter Your Email Address"),
 	about: yup
 		.string()
 		.min(12, "Minimum 12 Characters")
-		.max(30, "Maximum 30 Characters")
+		.max(120, "Maximum 30 Characters")
 		.required("Please Some Details About Yourself"),
-	image: yup.mixed().required("Please Upload a Profile Picture"),
 });
 const SettingForm = () => {
 	const { updateProfile } = ProfileApi();

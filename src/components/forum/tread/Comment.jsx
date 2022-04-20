@@ -30,12 +30,6 @@ const Comment = ({ detail }) => {
 						</div>
 
 						<p className="text-sm">{parse(comments.content)}</p>
-
-						<div className="mt-4 flex items-center">
-							{/* <div className="text-sm font-semibold text-gray-500">
-								5 Replies
-							</div> */}
-						</div>
 					</div>
 				</div>
 			))}

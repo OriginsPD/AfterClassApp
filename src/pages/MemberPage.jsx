@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import MemberAPi from "../api/MemberAPi";
 
+import parse from "html-react-parser";
+
 const people = [
 	{
 		name: "Michael Foster",
@@ -20,7 +22,7 @@ const MemberPage = () => {
 
 	return (
 		<div className="w-full items-center justify-center bg-white text-center">
-			<div className="mx-auto max-w-7xl py-10 px-4 text-center sm:px-6 lg:px-8 lg:py-20">
+			<div className="mx-auto max-w-7xl py-10 px-4 text-center sm:px-6 lg:px-8 ">
 				<div className="space-y-8 sm:space-y-12">
 					<div className="sticky top-0 space-y-5 overflow-hidden bg-white py-4 sm:mx-auto sm:max-w-xl sm:space-y-4 lg:max-w-5xl">
 						<h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
@@ -48,9 +50,11 @@ const MemberPage = () => {
 											alt=""
 										/>
 										<div className="space-y-2">
-											<div className="text-xs font-medium lg:text-sm">
+											<div className="flex-col space-y-1 text-xs font-medium lg:text-sm">
 												<h3>{person.username}</h3>
-												{/* <p className="text-indigo-600">{person.profile.about}</p> */}
+												<p className="mx-auto w-full text-left text-xs text-gray-600">
+													{parse(person.profile?.about ?? "Ready to Help")}
+												</p>
 											</div>
 										</div>
 									</div>

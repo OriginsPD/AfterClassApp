@@ -8,10 +8,13 @@ import SettingForm from "../../components/config/SettingForm";
 // Validation
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useToggle from "../../hooks/useToggle";
 
 const Setting = () => {
 	const { onFileUpload, onSubmit, schema, REST, formBody } = SettingForm();
 	const { loadInfo, storeInfo, credentials, dispatch } = useForms();
+
+	const { isOpen, toggleModal } = useToggle();
 
 	const { authInfo } = useAuth();
 
@@ -27,6 +30,8 @@ const Setting = () => {
 
 	const onSubmitClear = () => {
 		onSubmit();
+		reset(credentials);
+		toggleModal();
 	};
 
 	// console.log(formBody);
@@ -34,6 +39,10 @@ const Setting = () => {
 	useEffect(() => {
 		dispatch({ type: REST });
 	}, []);
+
+	useEffect(() => {
+		reset(credentials);
+	}, [credentials]);
 
 	useEffect(() => {
 		loadInfo(authInfo);
@@ -67,33 +76,82 @@ const Setting = () => {
 												: "sm:col-span-3"
 										}`}
 									>
-										<label
-											htmlFor={items.name}
-											className={`block text-sm  font-medium capitalize text-gray-700`}
-										>
-											{items.label}
-										</label>
-										<input
-											id={items.name}
-											type={items.type}
-											{...register(items.name)}
-											onChange={storeInfo}
-											value={items.value}
-											className={`mt-1 block w-full ${
-												items.name === "about" ? "h-[190px]" : ""
-											} rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
-										/>
+										{items.name !== "about" ? (
+											<>
+												<label
+													htmlFor={items.name}
+													className={`block text-sm  font-medium capitalize text-gray-700`}
+												>
+													{items.label}
+												</label>
+												<input
+													id={items.name}
+													type={items.type}
+													{...register(items.name)}
+													onChange={storeInfo}
+													value={items.value}
+													disabled={isOpen ? false : true}
+													readOnly={items.name == "email" ? true : false}
+													className={`mt-1 block w-full rounded-md border ${
+														items.name == "email"
+															? "disabled cursor-not-allowed"
+															: ""
+													}  border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm`}
+												/>
+											</>
+										) : (
+											<div>
+												<label
+													htmlFor={items.name}
+													className="block text-sm font-medium text-gray-700"
+												>
+													{items.label}
+												</label>
+												<div className="mt-1">
+													<textarea
+														rows={4}
+														id={items.name}
+														type={items.type}
+														{...register(items.name)}
+														disabled={isOpen ? false : true}
+														onChange={storeInfo}
+														defaultValue={items.value}
+														className="block w-full resize-none rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+													/>
+												</div>
+											</div>
+										)}
 									</div>
 								))}
 							</div>
 						</div>
-						<div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-							<button
-								type="submit"
-								className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-							>
-								Save
-							</button>
+						<div className="flex w-full justify-between bg-gray-50 px-4 py-3 text-right sm:px-6">
+							{isOpen ? <div></div> : null}
+
+							{isOpen ? (
+								<div className="space-x-2">
+									<button
+										type="submit"
+										className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+									>
+										Save
+									</button>
+									<a
+										onClick={toggleModal}
+										className="inline-flex cursor-pointer justify-center rounded-md border border-transparent bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+									>
+										Cancel
+									</a>
+								</div>
+							) : (
+								<a
+									onClick={toggleModal}
+									className="inline-flex cursor-pointer justify-start rounded-md border border-transparent bg-green-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+								>
+									Edit
+								</a>
+							)}
+							{isOpen ? null : <div></div>}
 						</div>
 					</form>
 
@@ -125,7 +183,6 @@ const Setting = () => {
 											{errors.name && <li> {errors.name?.message} </li>}
 											{errors.email && <li> {errors.email?.message} </li>}
 											{errors.about && <li> {errors.about?.message} </li>}
-											{errors.image && <li> {errors.image?.message} </li>}
 										</ul>
 									</div>
 								</div>

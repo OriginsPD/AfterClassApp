@@ -7,6 +7,7 @@ const ACTION = {
 	AUTHORIZE: "auth",
 	REAUTHORIZE: "reload-auth",
 	UNAUTHORIZE: "unAuth",
+	UPDATE_AUTHORIZE: "updateAuthInfo",
 };
 
 const initialState = {
@@ -30,6 +31,12 @@ const reducer = (state, action) => {
 				token: action.payload.token,
 				isAuth: action.payload.isAuth,
 				authInfo: action.payload.authInfo,
+			};
+		case ACTION.UPDATE_AUTHORIZE:
+			return {
+				...state,
+				authInfo: action.payload.authInfo,
+				...state.token,
 			};
 		case ACTION.UNAUTHORIZE:
 			return {
@@ -78,6 +85,11 @@ const AuthContextProvider = ({ children }) => {
 		dispatch({ type: ACTION.REAUTHORIZE, payload: { ...authorizeInfo } });
 	};
 
+	// Update Authorize User
+	const updateAuthorize = ({ authInfo }) => {
+		dispatch({ type: ACTION.UPDATE_AUTHORIZE, payload: { authInfo } });
+	};
+
 	// Unauthorize when user logout
 	const unAuthorize = () => {
 		dispatch({ type: ACTION.UNAUTHORIZE });
@@ -89,13 +101,14 @@ const AuthContextProvider = ({ children }) => {
 	const configProps = {
 		authorize: authorize,
 		reAuthorize: reAuthorize,
+		updateAuthorize: updateAuthorize,
 		unAuthorize: unAuthorize,
 		...state,
 	};
 
 	useEffect(() => {
 		state.token !== 0 ? localLog({ ...state }) : reAuthorize();
-	}, [state.token || state.authInfo]);
+	}, [state.token && state.authInfo]);
 
 	return (
 		<AuthContext.Provider value={{ ...configProps }}>

@@ -1,5 +1,7 @@
 import { ThumbUpIcon } from "@heroicons/react/solid";
 
+import parse from "html-react-parser";
+
 import {
 	ThumbUpIcon as ThumbUpIconIn,
 	AnnotationIcon,
@@ -61,7 +63,7 @@ const ReplyCard = ({ reply, setRefresh }) => {
 										})}
 									</p>
 								</div>
-								<p className="text-sm text-gray-800">{reply.content}</p>
+								<p className="text-sm text-gray-800">{parse(reply.content)}</p>
 							</div>
 						</div>
 						<div className="mt-4 flex justify-end space-x-8">

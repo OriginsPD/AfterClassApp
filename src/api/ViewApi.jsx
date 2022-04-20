@@ -24,7 +24,7 @@ const ViewApi = () => {
 
 		const queryResponse = await response.json();
 
-		console.log(queryResponse);
+		// console.log(queryResponse);
 	};
 
 	return { viewCount };

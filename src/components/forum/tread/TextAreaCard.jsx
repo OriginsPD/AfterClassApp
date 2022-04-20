@@ -23,6 +23,7 @@ const TextAreaCard = ({ id, setRefresh }) => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(schema),
@@ -31,12 +32,17 @@ const TextAreaCard = ({ id, setRefresh }) => {
 	const onSubmit = () => {
 		replyStore();
 		dispatch({ type: RESET });
+		reset(credentials);
 		setRefresh((previousState) => previousState + parseInt(1));
 	};
 
 	useEffect(() => {
 		dispatch({ type: SET_ID, value: parseInt(id) });
 	}, []);
+
+	useEffect(() => {
+		reset(credentials);
+	}, [credentials]);
 
 	return (
 		<div className="m-5 flex-col items-start space-x-4 ">

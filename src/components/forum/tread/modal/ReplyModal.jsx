@@ -1,5 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
+
+import parse from "html-react-parser";
 
 // Hooks
 import useAuth from "../../../../hooks/useAuth";
@@ -131,7 +133,9 @@ const ReplyModal = ({ show, toggle, reply, setRefresh }) => {
 														)}
 													</p>
 												</div>
-												<p className="text-sm text-gray-800">{reply.content}</p>
+												<p className="text-sm text-gray-800">
+													{parse(reply.content)}
+												</p>
 											</div>
 										</div>
 									</li>

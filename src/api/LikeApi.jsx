@@ -48,7 +48,7 @@ const LikeApi = () => {
 
 		// let { ...newState } = initialState;
 
-		console.log(item);
+		// console.log(item);
 	};
 
 	const unLike = async (id, item) => {

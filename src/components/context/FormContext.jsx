@@ -1,5 +1,6 @@
 import { useReducer, useState } from "react";
 import { createContext } from "react";
+import useAuth from "../../hooks/useAuth";
 // import useAuth from "../../hooks/useAuth";
 
 export const FormContext = createContext();
@@ -67,6 +68,7 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				...action.value,
+				about: action.about,
 			};
 		case ACTION.SET_ID:
 			return {
@@ -97,6 +99,7 @@ const reducer = (state, action) => {
 };
 
 const FormContextProvider = ({ children }) => {
+	const { authInfo } = useAuth();
 	const [credentials, dispatch] = useReducer(reducer, initialStateValue);
 
 	const [arr, setArr] = useState([]);
@@ -244,7 +247,11 @@ const FormContextProvider = ({ children }) => {
 
 	const loadInfo = (authInfo) => {
 		// console.log(authInfo);
-		dispatch({ type: ACTION.LOAD, value: authInfo });
+		dispatch({
+			type: ACTION.LOAD,
+			value: authInfo,
+			about: authInfo.profile?.about,
+		});
 	};
 
 	const defaultProps = {

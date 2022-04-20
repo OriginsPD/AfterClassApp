@@ -39,11 +39,11 @@ const ActionSection = () => {
 	// const authState = 0;
 
 	return (
-		<div className="sticky top-0 h-[95vh] bg-white sm:h-full xl:w-64 xl:flex-shrink-0 xl:border-r xl:border-gray-200">
-			<div className="py-6 pl-4 pr-6 sm:pl-6 lg:pl-8 xl:pl-0">
+		<div className="sticky top-0 h-[95vh] bg-white sm:h-full lg:w-64 lg:flex-shrink-0 lg:border-r lg:border-gray-200">
+			<div className="sticky top-0 py-6 pl-4 pr-6 sm:pl-6 lg:pl-8 xl:pl-0">
 				<div className="flex items-center justify-between">
 					<div className="flex-1 space-y-8">
-						<div className="space-y-8 sm:flex-col sm:items-center sm:justify-between sm:space-y-2 xl:block xl:space-y-8">
+						<div className="space-y-8 sm:flex-col sm:items-center sm:justify-between sm:space-y-2 lg:block lg:space-y-8">
 							{isAuth ? (
 								<>
 									{/* Profile */}
@@ -79,17 +79,17 @@ const ActionSection = () => {
 							) : null}
 
 							{/* Action buttons */}
-							<div className=" flex flex-col sm:flex-row xl:flex-col">
+							<div className=" flex flex-col sm:flex-row lg:flex-col">
 								<Link
 									to="/createTread"
-									className="group inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 group-hover:bg-blue-700 xl:w-full"
+									className="group inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 group-hover:bg-blue-700 lg:w-full"
 								>
 									<ClipboardIcon className="mr-1 h-5 w-5 text-white group-hover:animate-pulse" />
 									New Discussion
 								</Link>
 								<Link
 									to="/members"
-									className="mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
+									className="mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 lg:ml-0 lg:mt-3 lg:w-full"
 								>
 									<UserGroupIcon className="mr-1 h-5 w-5  text-gray-700 group-hover:animate-ping group-hover:text-green-400" />
 									Users
@@ -97,14 +97,14 @@ const ActionSection = () => {
 
 								<Link
 									to="/treads/sort/popular"
-									className="group mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
+									className="group mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 lg:ml-0 lg:mt-3 lg:w-full"
 								>
 									<TrendingUpIcon className="mr-1 h-5 w-5 text-gray-700  group-hover:text-red-600 " />
 									Popular
 								</Link>
 								<Link
 									to="/treads/sort/solved"
-									className="group mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 xl:ml-0 xl:mt-3 xl:w-full"
+									className="group mt-3 inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 lg:ml-0 lg:mt-3 lg:w-full"
 								>
 									<CheckCircleIcon className="mr-1 h-5 w-5  text-gray-700  group-hover:text-green-400" />
 									Solved
@@ -117,7 +117,7 @@ const ActionSection = () => {
 						{isAuth ? (
 							<>
 								{/* Meta info */}
-								<div className="flex flex-col space-y-6 sm:flex-row sm:space-y-0 sm:space-x-8 xl:flex-col xl:space-x-0 xl:space-y-6">
+								<div className="flex flex-col space-y-6 sm:flex-row sm:space-y-0 sm:space-x-8 lg:flex-col lg:space-x-0 lg:space-y-6">
 									<div className="flex items-center space-x-2">
 										<CollectionIcon
 											className="h-5 w-5 text-gray-400"

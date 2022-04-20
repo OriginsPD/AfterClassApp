@@ -13,7 +13,7 @@ const FilterDiscussion = () => {
 	const { discussionIndex, discussionState } = DiscussionTopicApi();
 	const filter = useParams();
 
-	console.log(filter.sort);
+	// console.log(filter.sort);
 
 	switch (filter.sort) {
 		case "popular":
@@ -23,18 +23,6 @@ const FilterDiscussion = () => {
 			discussionState.sort(function (a, b) {
 				return b.created_at.localeCompare(a.created_at);
 			});
-			break;
-		case "category":
-			discussionState.sort(function (a, b) {
-				return b.category.name.localeCompare(a.category.name);
-			});
-			break;
-		case "tag":
-			discussionState.discussion_tags.map((value) =>
-				value.sort(function (a, b) {
-					return b.tag.name.localeCompare(a.tag.name);
-				})
-			);
 			break;
 		default:
 			break;
@@ -47,7 +35,7 @@ const FilterDiscussion = () => {
 		discussionIndex();
 	}, [refresh]);
 
-	console.log(discussionState);
+	// console.log(discussionState);
 
 	return (
 		<div className=" bg-white lg:min-w-0 lg:flex-1">

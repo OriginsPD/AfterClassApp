@@ -53,7 +53,7 @@ const BodyProfile = ({ toggleTab }) => {
 						<div className="sm:col-span-2">
 							<dt className="text-sm font-medium text-gray-500">About</dt>
 							<dd className="mt-1 w-9/12 text-sm text-gray-900">
-								{parse(authInfo.profile?.about ?? "Testing")}
+								{parse(authInfo.profile?.about ?? "Ready to Help")}
 							</dd>
 						</div>
 					</dl>

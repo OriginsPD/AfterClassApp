@@ -18,8 +18,11 @@ const DiscussPage = () => {
 	let params = useParams();
 
 	useEffect(() => {
-		discussionFind(params.id);
 		viewCount(params.id);
+	}, []);
+
+	useEffect(() => {
+		discussionFind(params.id);
 	}, [refresh]);
 
 	// console.log(discussionState);

@@ -13,7 +13,7 @@ const SearchFilterPage = () => {
 	const { discussionIndex, discussionState } = DiscussionTopicApi();
 	const filter = useParams();
 
-	console.log(filter.sort);
+	// console.log(filter.sort);
 
 	// Refresh Loads
 	const [refresh, setRefresh] = useState(0);
@@ -22,7 +22,7 @@ const SearchFilterPage = () => {
 		discussionIndex();
 	}, [refresh]);
 
-	console.log(Object.keys(discussionState).length);
+	// console.log(Object.keys(discussionState).length);
 
 	return (
 		<div className=" bg-white lg:min-w-0 lg:flex-1">

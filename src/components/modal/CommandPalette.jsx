@@ -26,19 +26,20 @@ const CommandPalette = ({ open, toggle }) => {
 
 	// console.log(member);
 
+	const UserItems = member.map((value) => ({
+		id: 1 + value.id,
+		name: value.username,
+		category: "Users",
+	}));
+
 	const categoryItems = category.map((value) => ({
 		...value,
 		category: "Category",
 	}));
 
-	const UserItems = member.map((value) => ({
-		id: value.id,
-		name: value.username,
-		category: "Users",
-	}));
+	const items = Object.assign(categoryItems).concat(UserItems);
 
-	const items = Object.assign(UserItems, categoryItems);
-
+	// console.log(categoryItems);
 	// console.log(items);
 
 	const filteredItems =

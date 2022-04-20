@@ -10,7 +10,7 @@ const TabSection = ({ toggleTab, setToggleTab }) => {
 		{ name: "Setting", current: 1 },
 	];
 
-	console.log(toggleTab);
+	// console.log(toggleTab);
 
 	return (
 		<>
