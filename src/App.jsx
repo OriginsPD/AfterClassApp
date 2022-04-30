@@ -27,7 +27,10 @@ import MemberPage from "./pages/MemberPage";
 import FilterDiscussion from "./pages/FilterDiscussion";
 import SearchFilterPage from "./pages/SearchFilterPage";
 
+import { documentBody } from "./components/gen/DocumentConfig";
+
 const App = () => {
+	documentBody();
 	return (
 		<Router>
 			<AuthContextProvider>
@@ -54,7 +57,7 @@ const App = () => {
 									<Route path="/setting" element={<Setting />} />
 									<Route path="/inbox" element={<Inbox />} />
 								</Route>
-								
+
 								<Route path="/members" element={<MemberPage />} />
 							</Route>
 							<Route path="*" element={<NotFoundPage />} />
