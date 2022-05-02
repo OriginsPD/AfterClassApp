@@ -35,6 +35,13 @@ const AlertMessage = () => {
 		});
 	};
 
+	const profileUpdated = () => {
+		toast.success(`Updated was updated Successful`, {
+			bodyClassName: "px-5 text-sm capitalize text-gray-800",
+			autoClose: 2500,
+		});
+	};
+
 	const CreatedSuccess = () => {
 		toast.success(`Your Tread Was Created Successful`, {
 			position: toast.POSITION.TOP_RIGHT,
@@ -75,6 +82,7 @@ const AlertMessage = () => {
 		signUpFailed,
 		signUpSuccess,
 		CreatedSuccess,
+		profileUpdated,
 		CreatedFailed,
 		pleaseLogin,
 		postDelete,

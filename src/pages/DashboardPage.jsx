@@ -9,7 +9,11 @@ import { useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import CardForum from "../components/forum/card/CardForum";
 
+import { TabTitle } from "../components/gen/DocumentConfig";
+import PingLoader from "../components/loaders/PingLoader";
+
 const DashboardPage = () => {
+	TabTitle("Dashboard");
 	const { authInfo } = useAuth();
 	// Refresh Loads
 	const [refresh, setRefresh] = useState(0);
@@ -80,6 +84,7 @@ const DashboardPage = () => {
 					</div>
 				</div>
 			)}
+			{Object.keys(discussionState).length == 0 ? <PingLoader /> : null}
 		</div>
 	);
 };

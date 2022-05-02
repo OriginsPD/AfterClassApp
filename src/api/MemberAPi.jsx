@@ -1,11 +1,10 @@
-import React from "react";
 import { useState } from "react";
+
+// Access Point Url
+import { accessPoint } from "../constant/ApiHost";
 
 const MemberAPi = () => {
 	const [member, setMember] = useState([]);
-
-	// Access Point Url
-	const accessPoint = "http://127.0.0.1:8000/api";
 
 	// Request Option
 	const requestOption = {

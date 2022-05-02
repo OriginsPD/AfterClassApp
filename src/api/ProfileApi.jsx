@@ -4,13 +4,14 @@ import useAuth from "../hooks/useAuth";
 import { useForms } from "../hooks/useForms";
 import useToken from "../hooks/useToken";
 
+// Access Point Url
+import { accessPoint } from "../constant/ApiHost";
+
 const ProfileApi = () => {
-	const { loginFailed, loginSuccess } = AlertMessage();
+	const { loginFailed, profileUpdated } = AlertMessage();
 	const { updateAuthorize } = useAuth();
 	const { token } = useToken();
 	const { credentials } = useForms();
-	// Access Point Url
-	const accessPoint = "http://127.0.0.1:8000/api";
 
 	// Request Option
 	const requestOption = {
@@ -43,7 +44,7 @@ const ProfileApi = () => {
 
 		if (queryResponse.body?.status == 200) {
 			updateAuthorize(queryResponse.body);
-			loginSuccess();
+			profileUpdated();
 		} else {
 			loginFailed();
 		}

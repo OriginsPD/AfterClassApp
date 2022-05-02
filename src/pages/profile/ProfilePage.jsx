@@ -1,6 +1,6 @@
 import { MailIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { TabTitle } from "../../components/gen/DocumentConfig";
 import BodyProfile from "../../components/profile/BodyProfile";
 import TabSection from "../../components/profile/TabSection";
 import useAuth from "../../hooks/useAuth";
@@ -8,7 +8,8 @@ import useAuth from "../../hooks/useAuth";
 const profile = {
 	name: "Ricardo Cooper",
 	email: "ricardo.cooper@example.com",
-	backgroundImage: "https://source.unsplash.com/random",
+	backgroundImage:
+		"https://cdn.pixabay.com/photo/2015/10/29/14/38/web-1012467_960_720.jpg",
 	fields: [
 		["Phone", "(555) 123-4567"],
 		["Email", "ricardocooper@example.com"],
@@ -22,6 +23,7 @@ const profile = {
 };
 
 const ProfilePage = () => {
+	TabTitle("Profile");
 	const { authInfo } = useAuth();
 	const [toggleTab, setToggleTab] = useState(0);
 	return (

@@ -1,5 +1,6 @@
 import { TagIcon } from "@heroicons/react/outline";
 import parse from "html-react-parser";
+import PingLoader from "../../loaders/PingLoader";
 
 const HeadCard = ({ discussionState }) => {
 	// console.log(discussionState);
@@ -61,6 +62,7 @@ const HeadCard = ({ discussionState }) => {
 					</div>
 				</div>
 			))}
+			{Object.keys(discussionState).length == 0 ? <PingLoader /> : null}
 		</>
 	);
 };

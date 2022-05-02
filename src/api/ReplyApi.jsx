@@ -2,15 +2,19 @@ import { useState } from "react";
 import { useForms } from "../hooks/useForms";
 import useToken from "../hooks/useToken";
 
+// Access Point Url
+import { accessPoint } from "../constant/ApiHost";
+import AlertMessage from "../components/toast/AlertMessage";
+import useAuth from "../hooks/useAuth";
+
 const ReplyApi = () => {
+	const { authInfo } = useAuth();
+	const { pleaseLogin } = AlertMessage();
 	const [replyState, setReplyState] = useState([]);
 	const { token } = useToken();
 
 	// Hook Imports Details
 	const { credentials } = useForms();
-
-	// Access Point Url
-	const accessPoint = "http://127.0.0.1:8000/api";
 
 	// Request Option
 	const requestOption = {
@@ -25,15 +29,18 @@ const ReplyApi = () => {
 
 	const replyStore = async () => {
 		// console.log(credentials);
-		let { ...indexOption } = requestOption;
-		const response = await fetch(`${accessPoint}/reply`, {
-			...indexOption,
-			method: "POST",
-		});
+		if (Object.keys(authInfo).length > 0) {
+			let { ...indexOption } = requestOption;
+			const response = await fetch(`${accessPoint}/reply`, {
+				...indexOption,
+				method: "POST",
+			});
 
-		const processQuery = await response.json();
-
-		console.log(processQuery);
+			const processQuery = await response.json();
+			console.log(processQuery);
+		} else {
+			pleaseLogin();
+		}
 	};
 
 	const configProps = {

@@ -1,7 +1,10 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+import { TabTitle } from "../components/gen/DocumentConfig";
+
 const NotFoundPage = () => {
+	TabTitle("Not Found");
 	const location = useLocation();
 	const navigation = useNavigate();
 	const from = location?.pathname || "/";

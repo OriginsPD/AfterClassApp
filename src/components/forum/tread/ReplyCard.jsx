@@ -12,18 +12,33 @@ import Comment from "./Comment";
 import useToggle from "../../../hooks/useToggle";
 import ReplyModal from "./modal/ReplyModal";
 import { useForms } from "../../../hooks/useForms";
+import CheckAuth from "../../../auth/CheckAuth";
+import AlertMessage from "../../toast/AlertMessage";
+import { useEffect } from "react";
 
 const ReplyCard = ({ reply, setRefresh }) => {
+	const { pleaseLogin } = AlertMessage();
+	const { authState, checkAuthState } = CheckAuth();
 	const { authInfo } = useAuth();
 	const { like, unLike } = LikeApi();
 	const { REPLY_ID, dispatch } = useForms();
 
 	const { isOpen, toggleModal } = useToggle();
 
-	const makeComment = (id) => {
+	const triggerComment = (id) => {
 		dispatch({ type: REPLY_ID, value: id });
 		toggleModal();
 	};
+
+	const makeComment = (id) => {
+		if (Object.keys(authInfo).length > 0) {
+			triggerComment(id);
+		} else {
+			pleaseLogin();
+		}
+	};
+
+	// console.log(Object.keys(authInfo).length > 0);
 
 	const toggleLike = (id, item) => {
 		like(id, item);
@@ -34,6 +49,10 @@ const ReplyCard = ({ reply, setRefresh }) => {
 		unLike(id, item);
 		setRefresh((previousState) => previousState + parseInt(1));
 	};
+
+	useEffect(() => {
+		checkAuthState();
+	});
 
 	return (
 		<>

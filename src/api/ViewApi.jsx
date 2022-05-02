@@ -1,11 +1,10 @@
-import React from "react";
 import useToken from "../hooks/useToken";
+
+// Access Point Url
+import { accessPoint } from "../constant/ApiHost";
 
 const ViewApi = () => {
 	const { token } = useToken();
-	// Access Point Url
-	const accessPoint = "http://127.0.0.1:8000/api";
-
 	// Request Option
 	const requestOption = {
 		method: "",

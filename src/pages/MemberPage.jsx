@@ -2,18 +2,12 @@ import React from "react";
 import { useEffect } from "react";
 import MemberAPi from "../api/MemberAPi";
 
+import { TabTitle } from "../components/gen/DocumentConfig";
+
 import parse from "html-react-parser";
 
-const people = [
-	{
-		name: "Michael Foster",
-		role: "Co-Founder / CTO",
-		imageUrl:
-			"https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
-	},
-];
-
 const MemberPage = () => {
+	TabTitle("Our Classmates");
 	const { member, memberIndex } = MemberAPi();
 
 	useEffect(() => {

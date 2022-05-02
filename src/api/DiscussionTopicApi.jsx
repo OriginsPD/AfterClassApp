@@ -4,16 +4,19 @@ import AlertMessage from "../components/toast/AlertMessage";
 import { useForms } from "../hooks/useForms";
 import useToken from "../hooks/useToken";
 
+// Access Point Url
+import { accessPoint } from "../constant/ApiHost";
+import CheckAuth from "../auth/CheckAuth";
+import { useEffect } from "react";
+
 const DiscussionTopicApi = () => {
+	const [load, setLoad] = useState(false);
 	const [discussionState, setDiscussionState] = useState([]);
 	const { token } = useToken();
 	const { CreatedFailed, CreatedSuccess, postDelete } = AlertMessage();
 
 	// Hook Imports Details
 	const { credentials } = useForms();
-
-	// Access Point Url
-	const accessPoint = "http://127.0.0.1:8000/api";
 
 	// Request Option
 	const requestOption = {
@@ -36,6 +39,7 @@ const DiscussionTopicApi = () => {
 		const processQuery = await response.json();
 
 		setDiscussionState(processQuery);
+		setLoad(true);
 	};
 
 	const discussionFind = async (id) => {
@@ -49,6 +53,7 @@ const DiscussionTopicApi = () => {
 
 		// console.log(processQuery);
 		setDiscussionState(processQuery);
+		setLoad(true);
 	};
 
 	const discussionStore = async () => {
@@ -90,6 +95,10 @@ const DiscussionTopicApi = () => {
 		console.log(queryResponse.status);
 	};
 
+	useEffect(() => {
+		setLoad(false);
+	}, []);
+
 	const configProps = {
 		// Function
 		discussionIndex,
@@ -99,6 +108,7 @@ const DiscussionTopicApi = () => {
 
 		// State
 		discussionState,
+		load,
 	};
 
 	return { ...configProps };

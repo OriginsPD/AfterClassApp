@@ -28,12 +28,12 @@ const BodyProfile = ({ toggleTab }) => {
 								{authInfo.username}
 							</dd>
 						</div>
-						<div className="sm:col-span-1">
+						{/* <div className="sm:col-span-1">
 							<dt className="text-sm font-medium text-gray-500">
 								Courses Area{" "}
 							</dt>
 							<dd className="mt-1 text-sm text-gray-900">Backend Developer</dd>
-						</div>
+						</div> */}
 						<div className="sm:col-span-1">
 							<dt className="text-sm font-medium text-gray-500">
 								Email address

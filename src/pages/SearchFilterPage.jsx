@@ -8,12 +8,18 @@ import { ChatAlt2Icon, ChatAltIcon } from "@heroicons/react/solid";
 import CardForum from "../components/forum/card/CardForum";
 
 import DiscussionTopicApi from "../api/DiscussionTopicApi";
+import MetronomeLoader from "../components/loaders/MetronomeLoader";
+import { TabTitle } from "../components/gen/DocumentConfig";
 
 const SearchFilterPage = () => {
-	const { discussionIndex, discussionState } = DiscussionTopicApi();
+	const { discussionIndex, discussionState, load } = DiscussionTopicApi();
 	const filter = useParams();
 
-	// console.log(filter.sort);
+	let name = filter.sort;
+
+	let newName = name.charAt(0).toUpperCase() + name.slice(1);
+
+	TabTitle(newName + " Search");
 
 	// Refresh Loads
 	const [refresh, setRefresh] = useState(0);
@@ -21,8 +27,6 @@ const SearchFilterPage = () => {
 	useEffect(() => {
 		discussionIndex();
 	}, [refresh]);
-
-	// console.log(Object.keys(discussionState).length);
 
 	return (
 		<div className=" bg-white lg:min-w-0 lg:flex-1">
@@ -34,37 +38,49 @@ const SearchFilterPage = () => {
 					</h1>
 				</div>
 			</div>
-			<div className="h-screen overflow-y-auto scrollbar-hide ">
-				{Object.keys(discussionState).length > 0 || null ? (
-					filter.sort === "category" ? (
-						discussionState
-							.filter((value) => value.category.name == filter.name)
-							.map((value) => (
-								<div key={value.id} className="space-y-1 divide-y-2">
-									<CardForum value={value} setRefresh={setRefresh} />
-								</div>
-							))
+			{load === false || document.readyState == "interactive" ? (
+				<MetronomeLoader />
+			) : (
+				<div className="h-screen overflow-y-auto scrollbar-hide ">
+					{(Object.keys(discussionState).length > 0 &&
+						Object.values(discussionState).filter(
+							(value) => value.category.name == filter.name
+						).length > 0) ||
+					Object.values(discussionState).filter(
+						(value) => value.user.username == filter.name
+					).length > 0 ? (
+						filter.sort === "category" ? (
+							discussionState
+								.filter((value) => value.category.name == filter.name)
+								.map((value) => (
+									<div key={value.id} className="space-y-1 divide-y-2">
+										<CardForum value={value} setRefresh={setRefresh} />
+									</div>
+								))
+						) : (
+							discussionState
+								.filter((value) => value.user.username == filter.name)
+								.map((value) => (
+									<div key={value.id} className="space-y-1 divide-y-2">
+										<CardForum value={value} setRefresh={setRefresh} />
+									</div>
+								))
+						)
 					) : (
-						discussionState
-							.filter((value) => value.user.username == filter.name)
-							.map((value) => (
-								<div key={value.id} className="space-y-1 divide-y-2">
-									<CardForum value={value} setRefresh={setRefresh} />
-								</div>
-							))
-					)
-				) : (
-					<div className="container m-5 mx-auto items-center justify-center text-center">
-						<ChatAlt2Icon className="mx-auto h-12 w-12 text-gray-400" />
-						<h3 className="mt-2 text-sm font-medium text-gray-900">
-							No Treads
-						</h3>
-						<p className="mt-1 text-sm text-gray-500">
-							Get started by creating a new tread.
-						</p>
-					</div>
-				)}
-			</div>
+						<div className="flex h-[25rem] items-center justify-center">
+							<div className="container m-5 mx-auto items-center justify-center text-center">
+								<ChatAlt2Icon className="mx-auto h-12 w-12 text-gray-400" />
+								<h3 className="mt-2 text-sm font-medium text-gray-900">
+									No Treads
+								</h3>
+								<p className="mt-1 text-sm text-gray-500">
+									Get started by creating a new tread.
+								</p>
+							</div>
+						</div>
+					)}
+				</div>
+			)}
 		</div>
 	);
 };

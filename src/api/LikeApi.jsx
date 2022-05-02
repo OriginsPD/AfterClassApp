@@ -1,6 +1,9 @@
 import useAuth from "../hooks/useAuth";
 import useToken from "../hooks/useToken";
 
+// Access Point Url
+import { accessPoint } from "../constant/ApiHost";
+
 // Action
 const ACTION = {
 	LIKE: "like_post",
@@ -17,9 +20,6 @@ const LikeApi = () => {
 		itemID: 0,
 		itemTopic: "",
 	};
-
-	// Access Point Url
-	const accessPoint = "http://127.0.0.1:8000/api";
 
 	// Request Option
 	const requestOption = {

@@ -3,10 +3,11 @@ import {
 	ClipboardIcon,
 	TrendingUpIcon,
 	CheckCircleIcon,
-	StatusOnlineIcon,
+	ExclamationCircleIcon,
 	UserGroupIcon,
+	GlobeIcon,
 } from "@heroicons/react/solid";
-import { useContext } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 
 import { Link } from "react-router-dom";
@@ -14,11 +15,9 @@ import DiscussionTopicApi from "../../api/DiscussionTopicApi";
 
 // Authentication
 import useAuth from "../../hooks/useAuth";
-import { ThemeContext } from "../context/ThemeContext";
 
 const ActionSection = () => {
-	const { isDark, theme } = useContext(ThemeContext);
-
+	const [status, setStatus] = useState();
 	// Authenitcation Information
 	const { authInfo, isAuth } = useAuth();
 
@@ -65,12 +64,8 @@ const ActionSection = () => {
 												{authInfo.username}
 											</div>
 											<div className="flex items-center space-x-2">
-												<StatusOnlineIcon
-													className="h-5 w-5 animate-spin text-green-600"
-													aria-hidden="true"
-												/>
 												<span className="text-xs font-medium italic text-gray-800">
-													Online
+													{authInfo.email}
 												</span>
 											</div>
 										</div>

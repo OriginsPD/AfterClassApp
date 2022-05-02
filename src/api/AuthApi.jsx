@@ -2,14 +2,16 @@ import AlertMessage from "../components/toast/AlertMessage";
 import useAuth from "../hooks/useAuth";
 import { useForms } from "../hooks/useForms";
 
+// Access Point Url
+import { accessPoint } from "../constant/ApiHost";
+import CheckAuth from "../auth/CheckAuth";
+
 const AuthApi = () => {
+	const { setAuthState, checkAuthState } = CheckAuth();
 	const { loginSuccess, loginFailed } = AlertMessage();
 	// Hook Imports Details
 	const { authorize, unAuthorize } = useAuth();
 	const { credentials } = useForms();
-
-	// Access Point Url
-	const accessPoint = "http://127.0.0.1:8000/api";
 
 	// Request Option
 	const requestOption = {
@@ -42,6 +44,7 @@ const AuthApi = () => {
 
 	const register = async () => {
 		let { ...indexOption } = requestOption;
+
 		const response = await fetch(`${accessPoint}/register`, {
 			...indexOption,
 			method: "POST",
@@ -65,6 +68,8 @@ const AuthApi = () => {
 		});
 
 		unAuthorize();
+		setAuthState(false);
+		checkAuthState();
 	};
 
 	const configProps = {

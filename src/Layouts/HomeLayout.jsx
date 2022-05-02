@@ -1,16 +1,17 @@
-import React, { Suspense } from "react";
+import React, { useEffect, useContext } from "react";
 import { Outlet, useLocation, Navigate, useParams } from "react-router-dom";
 
 // Pages Component For 3 Columns
 import NavBar from "../components/routes/NavBar";
 import ActionSection from "../components/forum/ActionSection";
 import HistorySection from "../components/forum/HistorySection";
-import { useForms } from "../hooks/useForms";
-import { useEffect } from "react";
-import { useContext } from "react";
-import { ThemeContext } from "../components/context/ThemeContext";
-import LoadingPage from "../pages/LoadingPage";
 import Footer from "../components/routes/Footer";
+
+// Custom Hooks
+import { useForms } from "../hooks/useForms";
+
+// Context APi
+import { ThemeContext } from "../components/context/ThemeContext";
 
 const HomeLayout = () => {
 	const { isDark, theme } = useContext(ThemeContext);
@@ -65,9 +66,7 @@ const HomeLayout = () => {
 						{/* Projects List */}
 
 						{/* <TreadSection /> */}
-						<Suspense fallback={<LoadingPage />}>
-							<Outlet />
-						</Suspense>
+						<Outlet />
 					</div>
 
 					{/* Activity feed */}
