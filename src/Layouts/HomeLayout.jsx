@@ -29,6 +29,7 @@ const HomeLayout = () => {
 		"/setting",
 		"/createTread",
 		"/members",
+		"/landingPage",
 	];
 
 	useEffect(() => {

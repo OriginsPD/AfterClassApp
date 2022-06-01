@@ -28,6 +28,7 @@ import FilterDiscussion from "./pages/FilterDiscussion";
 import SearchFilterPage from "./pages/SearchFilterPage";
 
 import { documentBody } from "./components/gen/DocumentConfig";
+import LandingPage from "./pages/LandingPage";
 
 const App = () => {
 	documentBody();
@@ -39,6 +40,7 @@ const App = () => {
 						<Routes>
 							<Route element={<HomeLayout />}>
 								<Route path="/" element={<Homepage />} />
+								<Route path="/landingPage" element={<LandingPage />} />
 
 								<Route path="/treads/:id" element={<TreadPage />} />
 								<Route
